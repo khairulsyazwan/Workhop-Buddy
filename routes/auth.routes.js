@@ -1,14 +1,17 @@
+
 const router = require("express").Router();
 const passport = require("../lib/passportConfig");
 const jwt = require("jsonwebtoken");
 const Workshop = require("../models/workshop.model");
 const Customer = require("../models/customer.model");
 
+
 /**
  * @method POST
  * @route api/auth/register
  * @name Registration
  */
+
 
 router.post("/register", async (req, res) => {
   try {
@@ -48,6 +51,7 @@ router.post("/register/ws", async (req, res) => {
       .json({ message: "one or more fields does not match requirement" });
   }
 });
+
 
 /**
  * @method POST
@@ -92,3 +96,4 @@ router.get(
 );
 
 module.exports = router;
+
