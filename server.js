@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const server = expres();
+const server = express();
 const cors = require("cors");
 require("./lib/connection");
 
