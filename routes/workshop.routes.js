@@ -8,21 +8,11 @@ const router = require("express").Router();
 // GET workshop data
 // workshop id
 
-// router.get("/:id", async (req, res) => {
-//   try {
-//     let workshop = await Workshop.findById(req.params.id).populate(
-//       "customers appointments"
-//     );
-//     res.status(200).json({ workshop });
-//   } catch (error) {
-//     res.status(400).json({ message: "no data" });
-//   }
-// });
-
 router.get("/:id", async (req, res) => {
   try {
-    console.log(find);
-
+    let workshop = await Workshop.findById(req.params.id).populate(
+      "customers appointments"
+    );
     res.status(200).json({ workshop });
   } catch (error) {
     res.status(400).json({ message: "no data" });
