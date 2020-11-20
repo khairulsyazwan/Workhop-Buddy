@@ -7,11 +7,22 @@ const router = require("express").Router();
 
 // GET workshop data
 // workshop id
+
+// router.get("/:id", async (req, res) => {
+//   try {
+//     let workshop = await Workshop.findById(req.params.id).populate(
+//       "customers appointments"
+//     );
+//     res.status(200).json({ workshop });
+//   } catch (error) {
+//     res.status(400).json({ message: "no data" });
+//   }
+// });
+
 router.get("/:id", async (req, res) => {
   try {
-    let workshop = await Workshop.findById(req.params.id).populate(
-      "customers appointments"
-    );
+    console.log(find);
+
     res.status(200).json({ workshop });
   } catch (error) {
     res.status(400).json({ message: "no data" });
@@ -61,11 +72,22 @@ router.post("/complete/:id", async (req, res) => {
     let b = await Vehicle.findByIdAndUpdate(app.vehicle, {
       $push: { serviceRecord: req.params.id },
     });
-    //remove from ws appointment arr
-    let c = await Workshop.findByIdAndUpdate(app.workshop, {
-      $pull: { appointments: req.params.id },
-      $push: { customers: app.customer },
-    });
+    //remove from ws appointment arr and add cust if new
+    let ws = await Workshop.findById(workshop);
+    let cs = ws.customers;
+    let find = cs.indexOf(app.customer._id);
+
+    if (find === -1) {
+      let c = await Workshop.findByIdAndUpdate(app.workshop, {
+        $pull: { appointments: req.params.id },
+        $push: { customers: app.customer },
+      });
+    } else {
+      let c = await Workshop.findByIdAndUpdate(app.workshop, {
+        $pull: { appointments: req.params.id },
+      });
+    }
+
     // remove from customer appointment arr
     let d = await Customer.findByIdAndUpdate(app.customer, {
       $pull: { appointments: req.params.id },
