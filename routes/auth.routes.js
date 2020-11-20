@@ -3,6 +3,12 @@ const passport = require("../lib/passportConfig");
 const Customer = require("../models/customer.models");
 const jwt = require("jsonwebtoken");
 
+/**
+ * @method POST
+ * @route api/auth/register
+ * @name Registration
+ */
+
 router.post("/register", async (req,res)=>{
     try {
         let {email,password,firstname,lastname,location} = req.body;
@@ -14,7 +20,12 @@ router.post("/register", async (req,res)=>{
     }
 })
 
-
+/**
+ * @method POST
+ * @route api/auth/login
+ * @name login
+ * @returns jwt 
+ */
 router.post("/login", async (req, res, next) => {
     passport.authenticate("local", async (err, user, info) => {
       try {
