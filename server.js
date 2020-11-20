@@ -1,23 +1,27 @@
 require("dotenv").config();
 const express = require("express");
-const server = expres();
+const server = express();
 const cors = require("cors");
 require("./lib/connection");
+const passport = require("passport");
 
 //Middleware
-app.use(express.json());
-app.use(cors());
+server.use(express.json());
+server.use(cors());
 
-app.use(passport.initialize());
+server.use(passport.initialize());
 
 //Routes
-app.use("/api/auth", require("./routes/auth.routes"));
+server.use("/api/auth", require("./routes/auth.routes"));
+server.use("/api/customer", require("./routes/customer.routes"));
+server.use("/api/workshop", require("./routes/workshop.routes"));
+server.use("/api/appointment", require("./routes/appointment.routes"));
 
-app.get("*", (req, res) => {
-  res.status(404).json({ message: "Where are you going?" });
+server.get("*", (req, res) => {
+  res.status(404).json({ message: "This is not where you belong." });
 });
 
 // Listen
-app.listen(process.env.PORT, () =>
+server.listen(process.env.PORT, () =>
   console.log(`running on ${process.env.PORT}`)
 );

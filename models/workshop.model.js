@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const bcrypt = require("bcrypt");
+const Appointment = require("./appointment.model");
+const Customer = require("./customer.model");
 
 const workshopSchema = new Schema({
   name: String,
@@ -18,7 +20,12 @@ const workshopSchema = new Schema({
   ],
   isWorkshop: { type: Boolean, default: true },
   //will need to push to vehicle schema, then to customer
-  appointments: [String],
+  appointments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Appointment",
+    },
+  ],
 });
 
 workshopSchema.pre("save", function (next) {

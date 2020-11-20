@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const bcrypt = require("bcrypt");
+const Vehicle = require("./vehicle.model");
+const Appointment = require("./appointment.model");
 
 const customerSchema = new Schema({
   firstname: String,
@@ -17,6 +19,12 @@ const customerSchema = new Schema({
     },
   ],
   isCustomer: { type: Boolean, default: true },
+  appointments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Appointment",
+    },
+  ],
 });
 
 customerSchema.pre("save", function (next) {
