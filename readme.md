@@ -19,15 +19,17 @@ Team members will all contribute evenly across front-end and back-end during dev
 ## WireFrame
 
 ### login
-
+![Alt text](./wireframes/Login.png "Title")
 ### Register page
-
+![Alt text](./wireframes/CreateAccount.png "Title")
 ### Vehicle Home page
-
+![Alt text](./wireframes/SelectVehicle.png "Title")
 ### Add a vehicle
-
+![Alt text](./wireframes/AddVehicle.png "Title")
 ### Select services for vehicle
-
+![Alt text](./wireframes/AddService.png "Title")
+### Flash confirmation
+![Alt text](./wireframes/Confirm.png "Title")
 ## TechStack
 
 - React
