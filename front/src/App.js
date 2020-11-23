@@ -5,13 +5,14 @@ import Contact from './LoginPage/Contact'
 import Services from './LoginPage/Services'
 import WorkShop from './LoginPage/WorkShop'
 import { BrowserRouter as Router, Redirect, Switch, Route, Link } from 'react-router-dom'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import Cust_Dashboard from './Page/Cust_Dashboard'
 
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
-
+  
   useEffect(() => {
     checkUser();
   }, []);
@@ -46,7 +47,9 @@ function App() {
       <Route path='/WorkShop' component={WorkShop} />
         <Route path="/register"></Route>
         {/* register page */}
-        <Route path="/dashboard/cust/:id"></Route>
+        <Route path="/dashboard/cust/:id">
+          <Cust_Dashboard />
+        </Route>
         {/* customer dashboard */}
         <Route path="/dashboard/ws/:id"></Route>
         {/* workshop dashboard */}
