@@ -5,6 +5,16 @@ const Vehicle = require("../models/vehicle.model");
 const Workshop = require("../models/workshop.model");
 const router = require("express").Router();
 
+
+router.get("/", async (req, res) => {
+  try {
+    let workshop = await Workshop.find();
+    res.status(200).json({ workshop });
+  } catch (error) {
+    res.status(400).json({ message: "no data" });
+  }
+});
+
 // GET workshop data
 // workshop id
 
