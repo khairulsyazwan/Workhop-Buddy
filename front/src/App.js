@@ -4,19 +4,56 @@ import About from './LoginPage/About'
 import Contact from './LoginPage/Contact'
 import Services from './LoginPage/Services'
 import WorkShop from './LoginPage/WorkShop'
+import { BrowserRouter as Router, Redirect, Switch, Route, Link } from 'react-router-dom'
+import { useEffect } from "react";
+import axios from "axios";
 
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 function App() {
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    checkUser();
+  }, []);
+
+  async function checkUser() {
+    try {
+      let token = localStorage.getItem("token");
+      let resp = await axios.get("http://localhost:8080/api/auth/authtoken", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log(resp.data.user._id);
+      localStorage.setItem("user", resp.data.user._id);
+      setIsAuth(true);
+    } catch (error) {}
+  }
+
+  function logout() {
+    localStorage.removeItem("token");
+    setIsAuth(false);
+  }
+
   return (
     <Router>
+      <Switch>
       <Route path='/' exact component={LoginPage} />
+     {/* home page */}
       <Route path='/About' component={About} />
       <Route path='/Contact' component={Contact} />
       <Route path='/Services' component={Services} />
       <Route path='/WorkShop' component={WorkShop} />
+        <Route path="/register"></Route>
+        {/* register page */}
+        <Route path="/dashboard/cust/:id"></Route>
+        {/* customer dashboard */}
+        <Route path="/dashboard/ws/:id"></Route>
+        {/* workshop dashboard */}
+        <Route></Route>
+      </Switch>
     </Router>
-  )
+  );
 }
 
 export default App
