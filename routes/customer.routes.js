@@ -8,8 +8,7 @@ const router = require("express").Router();
 router.get("/:id", async (req, res) => {
   try {
     let customer = await Customer.findById(req.params.id).populate(
-      "vehicles appointments"
-    );
+      "vehicles appointments");
     res.status(200).json({ customer });
   } catch (error) {
     res.status(400).json({ message: "no data" });
