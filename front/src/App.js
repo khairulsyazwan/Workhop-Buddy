@@ -1,14 +1,13 @@
-import logo from "./logo.svg";
-import "./App.css";
-import {
-  BrowserRouter as Router,
-  Link,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import './App.css'
+import LoginPage from './LoginPage/LoginPage'
+import About from './LoginPage/About'
+import Contact from './LoginPage/Contact'
+import Services from './LoginPage/Services'
+import WorkShop from './LoginPage/WorkShop'
+import { BrowserRouter as Router, Redirect, Switch, Route, Link } from 'react-router-dom'
 import { useEffect } from "react";
 import axios from "axios";
+
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -39,10 +38,12 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/"></Route>
-        {/* home page */}
-        <Route path="login"></Route>
-        {/* login page */}
+      <Route path='/' exact component={LoginPage} />
+     {/* home page */}
+      <Route path='/About' component={About} />
+      <Route path='/Contact' component={Contact} />
+      <Route path='/Services' component={Services} />
+      <Route path='/WorkShop' component={WorkShop} />
         <Route path="/register"></Route>
         {/* register page */}
         <Route path="/dashboard/cust/:id"></Route>
@@ -55,4 +56,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
