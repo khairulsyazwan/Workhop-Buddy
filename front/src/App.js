@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Cust_Dashboard from "./Page/Cust_Dashboard";
 import Cust_Vehicle from "./Page/Cust_Vehicle";
+import Cust_Appointment from "./Page/Cust_Appointment";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -58,6 +59,9 @@ function App() {
         </Route>
         <Route path="/cust/vehicle/:id">
           <Cust_Vehicle />
+        </Route>
+        <Route path="/cust/appointment/:id">
+          <Cust_Appointment />
         </Route>
 
         {/* customer dashboard */}

@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   Button,
+  ButtonGroup,
   Card,
+  CardDeck,
   Col,
   Container,
   Form,
@@ -19,16 +21,26 @@ import axios from "axios";
 function Cust_Dashboard() {
   const [current, setCurrent] = useState();
   const [addVehicles, setAddVehicles] = useState();
+  const [appointment, setAppointment] = useState();
+  const [workshop, setWorkshop] = useState();
+  const [currentAppointments, setCurrentAppointments] = useState([]);
 
   //add vehicle modal controls
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  //add appointments modal controls
+  const [show2, setShow2] = useState(false);
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
+
   const { id } = useParams();
 
   useEffect(() => {
     getCustomer();
+    getWorkshop();
+    getCustomerApp();
   }, []);
 
   async function getCustomer() {
@@ -41,9 +53,38 @@ function Cust_Dashboard() {
     }
   }
 
+  async function getCustomerApp() {
+    try {
+      let resp = await axios.get(
+        `http://localhost:8080/api/customer/${id}/app`
+      );
+      console.log(resp.data.customer.appointments);
+      await setCurrentAppointments(resp.data.customer.appointments);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getWorkshop() {
+    try {
+      let resp = await axios.get(`http://localhost:8080/api/workshop`);
+      console.log(resp.data);
+      await setWorkshop(resp.data.workshop);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   function changeHandler(e) {
     setAddVehicles({ ...addVehicles, [e.target.name]: e.target.value });
     console.log(addVehicles);
+  }
+
+  function changeHandler2(e) {
+    setAppointment((content) => ({
+      ...content,
+      [e.target.name]: e.target.value,
+    }));
   }
   async function addVehicle() {
     try {
@@ -53,6 +94,31 @@ function Cust_Dashboard() {
       );
       getCustomer();
       handleClose();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function addAppointment() {
+    try {
+      let { vehicle, date, work, others, workshop } = appointment;
+      let appoint;
+      if (work === "others") {
+        appoint = {
+          vehicle,
+          date,
+          work: others,
+          workshop,
+        };
+      } else {
+        appoint = { vehicle, date, work, workshop };
+      }
+      let resp = await axios.post(
+        `http://localhost:8080/api/appointment/new/${id}`,
+        appoint
+      );
+      getCustomer();
+      handleClose2();
     } catch (error) {
       console.log(error);
     }
@@ -73,7 +139,7 @@ function Cust_Dashboard() {
         <Row>
           <Col md={8}>
             <h1>Welcome, {current && current.firstname}!</h1>
-            <Row className="d-flex justify-content-around">
+            <Row className="">
               {current && current.vehicles.length === 0 && (
                 <Col md={3}>
                   <Card className="text-center">
@@ -90,10 +156,11 @@ function Cust_Dashboard() {
                   </Card>
                 </Col>
               )}
+
               {current &&
                 current.vehicles.map((veh) => (
-                  <Col md={3}>
-                    <Card key={veh._id} className="text-center">
+                  <Col md={4} sm={6}>
+                    <Card key={veh._id} className="text-center mb-3">
                       <Card.Body>
                         <div>{veh.vehicleNumber}</div>
                         <div>{veh.make}</div>
@@ -205,22 +272,23 @@ function Cust_Dashboard() {
 
           <Col md={4}>
             <h2>Appointments</h2>
-            {current &&
-              current.appointments.map((app) => (
+            {currentAppointments &&
+              currentAppointments.map((app) => (
                 <Col>
-                  <Card key={app._id} className="text-center">
+                  <Card key={app._id} className="text-center mb-3">
                     <Card.Header>{app.date}</Card.Header>
                     <Card.Body>
-                      <div>{app.vehicle}</div>
+                      <div>{app.vehicle.vehicleNumber}</div>
                       <div>{app.work}</div>
-                      <div>{app.workshop}</div>
+                      <div>{app.workshop.name}</div>
+                      <div>{app.workshop.address}</div>
                     </Card.Body>
                     <Card.Footer>
                       <Button
                         className="btn-block"
                         variant="outline-info"
                         as={Link}
-                        // to={`/cust/vehicle/${veh._id}`}
+                        to={`/cust/appointment/${app._id}`}
                       >
                         View
                       </Button>
@@ -228,9 +296,91 @@ function Cust_Dashboard() {
                   </Card>
                 </Col>
               ))}
-            <Button className="mt-2" as={Link} to="/appointment">
-              Make an Appointment
-            </Button>
+
+            {/* New Appointment Modal */}
+
+            <Container className="text-center">
+              <Button
+                className="mt-3 btn-block"
+                variant="primary"
+                onClick={handleShow2}
+              >
+                Make Appointment
+              </Button>
+            </Container>
+
+            <Modal show={show2} onHide={handleClose2}>
+              <Modal.Header closeButton>
+                <Modal.Title>Make Appointment</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Label>Vehicle</Form.Label>
+                  <Form.Control
+                    name="vehicle"
+                    as="select"
+                    onChange={changeHandler2}
+                  >
+                    <option>Select One</option>
+                    {current &&
+                      current.vehicles.map((el) => (
+                        <option value={el._id}>
+                          {el.vehicleNumber} {el.make} {el.model}
+                        </option>
+                      ))}
+                  </Form.Control>
+                  <Form.Label>Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="date"
+                    placeholder="Appointment Date"
+                    onChange={changeHandler2}
+                  />
+                  <Form.Label>Type</Form.Label>
+                  <Form.Control
+                    name="work"
+                    as="select"
+                    onChange={changeHandler2}
+                  >
+                    <option>Select One</option>
+                    <option value="annual servicing">Annual Servicing</option>
+                    <option value="engine/fluids">Engine/Fluids</option>
+                    <option value="brakes/suspension">Brakes/Suspension</option>
+                    <option value="tyres/rims">Tyres/Rims</option>
+                    <option value="body/paint">Body/Paint</option>
+                    <option value="others">Others</option>
+                  </Form.Control>
+                  {appointment && appointment.work === "others" && (
+                    <>
+                      <Form.Label>If others, please specify:</Form.Label>
+                      <Form.Control
+                        name="others"
+                        placeholder="Type"
+                        onChange={changeHandler2}
+                      />
+                    </>
+                  )}
+                  <Form.Label>Workshop</Form.Label>
+                  <Form.Control
+                    name="workshop"
+                    as="select"
+                    onChange={changeHandler2}
+                  >
+                    <option>Select One</option>
+                    {workshop &&
+                      workshop.map((el) => (
+                        <option value={el._id}>{el.name}</option>
+                      ))}
+                  </Form.Control>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose2}>
+                  Close
+                </Button>
+                <Button onClick={addAppointment}>Submit</Button>
+              </Modal.Footer>
+            </Modal>
           </Col>
         </Row>
       </Container>

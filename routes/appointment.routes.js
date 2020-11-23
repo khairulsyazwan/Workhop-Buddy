@@ -10,6 +10,7 @@ router.post("/new/:id", async (req, res) => {
   try {
     let { vehicle, work, date, workshop } = req.body;
     let customer = req.params.id;
+    // console.log(workshop);
     let appointment = new Appointment({
       customer,
       vehicle,
