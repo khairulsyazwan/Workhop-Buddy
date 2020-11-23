@@ -15,6 +15,7 @@ server.use(passport.initialize());
 server.use("/api/auth", require("./routes/auth.routes"));
 server.use("/api/customer", require("./routes/customer.routes"));
 server.use("/api/workshop", require("./routes/workshop.routes"));
+server.use("/api/appointment", require("./routes/appointment.routes"));
 
 server.get("*", (req, res) => {
   res.status(404).json({ message: "This is not where you belong." });

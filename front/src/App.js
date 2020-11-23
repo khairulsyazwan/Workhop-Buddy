@@ -1,15 +1,25 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { Button, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap'
-import {
-  BrowserRouter as Router,
-  Link,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom'
+import './App.css'
 import Login from './Auth/Login'
 import Register from './Auth/Register'
+import {
+  Button,
+  Navbar,
+  Nav,
+  NavItem,
+  NavDropdown,
+  MenuItem,
+  Image,
+} from 'react-bootstrap'
+
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Switch,
+  Route,
+  Link,
+} from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 function App() {
   const [isAuth, setIsAuth] = useState(false)
@@ -21,7 +31,7 @@ function App() {
   async function checkUser() {
     try {
       let token = localStorage.getItem('token')
-      let resp = await axios.get('http://localhost:8080/api/auth/test', {
+      let resp = await axios.get('http://localhost:8080/api/auth/authtoken', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -48,29 +58,11 @@ function App() {
                 marginBottom: '-3vh',
                 marginTop: '-3vh',
               }}
-              src='./images/WS.png'
+              src='Public/WS.png'
               alt='WorkShop Buddy'
             />
           </Navbar.Brand>
           <Navbar.Toggle />
-          <Navbar.Collapse className='justify-content-end'>
-            <NavDropdown title='' id='collasible-nav-dropdown'>
-              <NavDropdown.Item as={Link} to='/'>
-                Home
-              </NavDropdown.Item>
-
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={logout}>Log Out</NavDropdown.Item>
-            </NavDropdown>
-            <Nav className=''>
-              <Image
-                roundedCircle
-                src='https://i.imgur.com/iOil1li.png'
-                alt='Image'
-                style={{ height: '50px', width: '50px' }}
-              />
-            </Nav>
-          </Navbar.Collapse>
         </Navbar>
       )}
 
