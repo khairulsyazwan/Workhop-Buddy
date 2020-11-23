@@ -60,7 +60,7 @@ router.post("/complete/:id", async (req, res) => {
 
     //push to vehicle service record
     let b = await Vehicle.findByIdAndUpdate(app.vehicle, {
-      $push: { serviceRecord: req.params.id },
+      $push: { serviceRecord: record._id },
     });
     //remove from ws appointment arr and add cust if new
     let ws = await Workshop.findById(workshop);

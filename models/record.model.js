@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
-const Workshop = require("./workshop.model");
 const { Schema } = mongoose;
+const Appointment = require("../models/appointment.model");
+const Customer = require("../models/customer.model");
+const Vehicle = require("../models/vehicle.model");
+const Workshop = require("../models/workshop.model");
 
 const recordSchema = new Schema({
   item: [String],
