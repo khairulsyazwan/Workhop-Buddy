@@ -5,8 +5,10 @@ import { Card, Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 function Cust_Vehicle() {
-  const [vehicle, setVehicle] = useState();
+  const [vehicle, setVehicle] = useState({});
   const { id } = useParams();
+  const [records, setrecords] = useState([]);
+
 
   useEffect(() => {
     async function getVehicle() {
@@ -15,13 +17,30 @@ function Cust_Vehicle() {
           `http://localhost:8080/api/customer/vehicle/${id}`
         );
         setVehicle(resp.data.vehicle);
-        console.log(resp.data.vehicle);
+
+        // console.log(resp.data.vehicle);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    async function getSR() {
+      try {
+        let resp = await axios.get(
+          `http://localhost:8080/api/customer/vehicle/${id}/sr`
+        );
+        setrecords(resp.data.vehicle.serviceRecord);
+        // console.log(resp.data.vehicle.serviceRecord);
+
       } catch (error) {
         console.log(error);
       }
     }
     getVehicle();
+    getSR();
   }, []);
+
+  console.log(records);
+
   return (
     <div>
       <Container>
@@ -34,16 +53,18 @@ function Cust_Vehicle() {
           </Col>
           <Col>
             <h2>Service History</h2>
-            {vehicle &&
-              vehicle.serviceRecord.map((rec) => (
-                <Card>
+            {records &&
+              records.map((rec) => (
+                <Card key={rec._id}>
                   <Card.Body>
                     <h3>
-                      {rec.item.map((it) => (
-                        <li>{it}</li>
+                      {rec.item.map((it, index) => (
+                        <li key={index}>
+                          {it.item} {it.qty} {it.price}
+                        </li>
                       ))}
                     </h3>
-                    <h3>{rec.price}</h3>
+
 
                     <h3>{rec.workshop.name}</h3>
 

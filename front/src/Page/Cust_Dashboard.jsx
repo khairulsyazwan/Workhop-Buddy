@@ -75,6 +75,7 @@ function Cust_Dashboard() {
     }
   }
 
+
   function changeHandler(e) {
     setAddVehicles({ ...addVehicles, [e.target.name]: e.target.value });
     console.log(addVehicles);
@@ -118,13 +119,12 @@ function Cust_Dashboard() {
         appoint
       );
       getCustomer();
+      getCustomerApp();
       handleClose2();
     } catch (error) {
       console.log(error);
     }
   }
-
-  //   console.log(current);
 
   return (
     <>
@@ -139,7 +139,7 @@ function Cust_Dashboard() {
         <Row>
           <Col md={8}>
             <h1>Welcome, {current && current.firstname}!</h1>
-            <Row className="">
+            <Row>
               {current && current.vehicles.length === 0 && (
                 <Col md={3}>
                   <Card className="text-center">
@@ -166,7 +166,8 @@ function Cust_Dashboard() {
                         <div>{veh.make}</div>
                         <div>{veh.model}</div>
 
-                        {veh.type == "car" ? (
+
+                        {veh.type === "Car" ? (
                           <i
                             style={{ fontSize: "3rem" }}
                             class="fas fa-car-side"
@@ -270,13 +271,36 @@ function Cust_Dashboard() {
             </Modal>
           </Col>
 
-          <Col md={4}>
+
+          <Col md={4} className="text-center">
             <h2>Appointments</h2>
+            <Container className="text-center">
+              <Button
+                className="my-2 btn-block"
+                variant="primary"
+                onClick={handleShow2}
+              >
+                Create New
+              </Button>
+            </Container>
+
             {currentAppointments &&
               currentAppointments.map((app) => (
                 <Col>
                   <Card key={app._id} className="text-center mb-3">
-                    <Card.Header>{app.date}</Card.Header>
+
+                    <Card.Header>
+                      {app.date}{" "}
+                      {app.isAcknowledged ? (
+                        <span class="badge badge-pill badge-success">
+                          Acknowledged
+                        </span>
+                      ) : (
+                        <span class="badge badge-pill badge-danger">
+                          Pending
+                        </span>
+                      )}
+                    </Card.Header>
                     <Card.Body>
                       <div>{app.vehicle.vehicleNumber}</div>
                       <div>{app.work}</div>
@@ -298,16 +322,6 @@ function Cust_Dashboard() {
               ))}
 
             {/* New Appointment Modal */}
-
-            <Container className="text-center">
-              <Button
-                className="mt-3 btn-block"
-                variant="primary"
-                onClick={handleShow2}
-              >
-                Make Appointment
-              </Button>
-            </Container>
 
             <Modal show={show2} onHide={handleClose2}>
               <Modal.Header closeButton>

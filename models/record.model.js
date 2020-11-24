@@ -6,9 +6,9 @@ const Vehicle = require("../models/vehicle.model");
 const Workshop = require("../models/workshop.model");
 
 const recordSchema = new Schema({
-  item: [String],
+  item: [{ item: String, qty: Number, price: Number }],
   price: String,
-  date: { type: Date, default: Date.now },
+  date: String,
   workshop: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Workshop",
