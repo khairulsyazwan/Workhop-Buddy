@@ -7,8 +7,23 @@ const router = require("express").Router();
 // GET customer data
 router.get("/:id", async (req, res) => {
   try {
-    let customer = await Customer.findById(req.params.id).populate(
-      "vehicles appointments");
+    let customer = await Customer.findById(req.params.id).populate({
+      path: "appointments vehicles",
+      // populate: "workshop vehicle",
+    });
+    res.status(200).json({ customer });
+  } catch (error) {
+    res.status(400).json({ message: "no data" });
+  }
+});
+
+// GET customer appointment data
+router.get("/:id/app", async (req, res) => {
+  try {
+    let customer = await Customer.findById(req.params.id).populate({
+      path: "appointments vehicles",
+      populate: "workshop vehicle",
+    });
     res.status(200).json({ customer });
   } catch (error) {
     res.status(400).json({ message: "no data" });
@@ -18,7 +33,7 @@ router.get("/:id", async (req, res) => {
 // get record data
 router.get("/record/:id", async (req, res) => {
   try {
-    let record = await Record.findById(req.params.id);
+    let record = await Record.findById(req.params.id).populate("workshop");
     res.status(200).json({ record });
   } catch (error) {
     res.status(400).json({ message: "no data" });
@@ -28,8 +43,23 @@ router.get("/record/:id", async (req, res) => {
 // get appointment data
 router.get("/appointment/:id", async (req, res) => {
   try {
-    let record = await Appointment.findById(req.params.id);
-    res.status(200).json({ record });
+    let appointment = await Appointment.findById(req.params.id).populate(
+      "workshop vehicle"
+    );
+    res.status(200).json({ appointment });
+  } catch (error) {
+    res.status(400).json({ message: "no data" });
+  }
+});
+
+// get vehicle data
+router.get("/vehicle/:id", async (req, res) => {
+  try {
+    let vehicle = await Vehicle.findById(req.params.id).populate({
+      path: "serviceRecord",
+      populate: { path: "workshop" },
+    });
+    res.status(200).json({ vehicle });
   } catch (error) {
     res.status(400).json({ message: "no data" });
   }
@@ -58,4 +88,3 @@ router.post("/newvehicle/:id", async (req, res) => {
 });
 
 module.exports = router;
-

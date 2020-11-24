@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const Appointment = require("../models/appointment.model");
+const Customer = require("../models/customer.model");
+const Record = require("../models/record.model");
+const Workshop = require("../models/workshop.model");
 
 const vehicleSchema = new Schema({
   type: String,
