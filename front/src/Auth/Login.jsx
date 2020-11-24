@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import Carousels from './Carousels'
 import { Button, Col, Container, Form, Image } from "react-bootstrap";
 import { NavLink, Redirect } from "react-router-dom";
 import axios from "axios";
+
 
 function Login({ setIsAuth, isAuth }) {
   const [user, setUser] = useState({});
@@ -31,6 +33,7 @@ function Login({ setIsAuth, isAuth }) {
   }
 
   return (
+    <>
     <div style={{ height: "100vh" }} className="splash">
       <Container className="text-center">
         <Col md={4} className="mx-auto py-5">
@@ -67,7 +70,9 @@ function Login({ setIsAuth, isAuth }) {
           <NavLink to="/register">Sign Up Now</NavLink>
         </Col>
       </Container>
+      <Carousels />
     </div>
+    </>
   );
 }
 
