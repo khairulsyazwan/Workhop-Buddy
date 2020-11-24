@@ -125,8 +125,6 @@ function Cust_Dashboard() {
     }
   }
 
-  //   console.log(current);
-
   return (
     <>
       <Navbar bg="primary" variant="light">

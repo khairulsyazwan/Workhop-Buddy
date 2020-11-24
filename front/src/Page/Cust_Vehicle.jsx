@@ -16,6 +16,7 @@ function Cust_Vehicle() {
           `http://localhost:8080/api/customer/vehicle/${id}`
         );
         setVehicle(resp.data.vehicle);
+
         // console.log(resp.data.vehicle);
       } catch (error) {
         console.log(error);
@@ -37,6 +38,7 @@ function Cust_Vehicle() {
   }, []);
 
   console.log(records);
+
   return (
     <>
       <Navbar bg="primary" variant="light">
