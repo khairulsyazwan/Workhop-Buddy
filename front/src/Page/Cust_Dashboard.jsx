@@ -75,6 +75,7 @@ function Cust_Dashboard() {
     }
   }
 
+
   function changeHandler(e) {
     setAddVehicles({ ...addVehicles, [e.target.name]: e.target.value });
     console.log(addVehicles);
@@ -168,6 +169,7 @@ function Cust_Dashboard() {
                   <Col md={4} sm={6}>
                     <Card key={veh._id} className="text-center mb-3 shadow">
                       <Card.Body>
+
                         {veh.type === "Car" ? (
                           <i
                             style={{ fontSize: "3rem" }}
@@ -274,6 +276,7 @@ function Cust_Dashboard() {
               </Modal.Footer>
             </Modal>
           </Col>
+
 
           <Col md={4} className="text-center">
             <div className="d-flex justify-content-center mb-3">

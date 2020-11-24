@@ -9,6 +9,7 @@ function Cust_Vehicle() {
   const { id } = useParams();
   const [records, setrecords] = useState([]);
 
+
   useEffect(() => {
     async function getVehicle() {
       try {
@@ -29,6 +30,7 @@ function Cust_Vehicle() {
         );
         setrecords(resp.data.vehicle.serviceRecord);
         // console.log(resp.data.vehicle.serviceRecord);
+
       } catch (error) {
         console.log(error);
       }
@@ -96,6 +98,7 @@ function Cust_Vehicle() {
                         </tbody>
                       ))}
                     </Table>
+
                   </Card.Body>
                 </Card>
               ))}
