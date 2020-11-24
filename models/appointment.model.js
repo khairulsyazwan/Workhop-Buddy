@@ -14,7 +14,7 @@ const appointmentSchema = new Schema({
     ref: "Vehicle",
   },
   work: String,
-  date: Date,
+  date: String,
   workshop: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Workshop",

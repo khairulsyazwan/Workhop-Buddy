@@ -55,9 +55,19 @@ router.get("/appointment/:id", async (req, res) => {
 // get vehicle data
 router.get("/vehicle/:id", async (req, res) => {
   try {
+    let vehicle = await Vehicle.findById(req.params.id);
+    res.status(200).json({ vehicle });
+  } catch (error) {
+    res.status(400).json({ message: "no data" });
+  }
+});
+
+// get vehicle data2
+router.get("/vehicle/:id/sr", async (req, res) => {
+  try {
     let vehicle = await Vehicle.findById(req.params.id).populate({
       path: "serviceRecord",
-      populate: { path: "workshop" },
+      populate: "workshop",
     });
     res.status(200).json({ vehicle });
   } catch (error) {

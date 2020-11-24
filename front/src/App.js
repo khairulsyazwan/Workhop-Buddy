@@ -1,9 +1,14 @@
 import "./App.css";
-import LoginPage from "./LoginPage/LoginPage";
-import About from "./LoginPage/About";
-import Contact from "./LoginPage/Contact";
-import Services from "./LoginPage/Services";
-import WorkShop from "./LoginPage/WorkShop";
+import {
+  Button,
+  Navbar,
+  Nav,
+  NavItem,
+  NavDropdown,
+  MenuItem,
+  Image,
+} from "react-bootstrap";
+
 import {
   BrowserRouter as Router,
   Redirect,
@@ -16,6 +21,11 @@ import axios from "axios";
 import Cust_Dashboard from "./Page/Cust_Dashboard";
 import Cust_Vehicle from "./Page/Cust_Vehicle";
 import Cust_Appointment from "./Page/Cust_Appointment";
+import Login from "./Auth/Login";
+import Register from "./Auth/Register";
+import WsDashboard from "./Page/WsDashboard";
+import WsAppointment from "./Page/WsAppointment";
+import WsJob from "./Page/WsJob";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -45,15 +55,24 @@ function App() {
 
   return (
     <Router>
+      {isAuth && (
+        <Navbar>
+          <Navbar.Brand>
+            <Image
+              style={{
+                width: "12vw",
+                marginBottom: "-3vh",
+                marginTop: "-3vh",
+              }}
+              src="Public/WS.png"
+              alt="WorkShop Buddy"
+            />
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar>
+      )}
+
       <Switch>
-        <Route path="/" exact component={LoginPage} />
-        {/* home page */}
-        <Route path="/About" component={About} />
-        <Route path="/Contact" component={Contact} />
-        <Route path="/Services" component={Services} />
-        <Route path="/WorkShop" component={WorkShop} />
-        <Route path="/register"></Route>
-        {/* register page */}
         <Route path="/dashboard/cust/:id">
           <Cust_Dashboard />
         </Route>
@@ -63,11 +82,24 @@ function App() {
         <Route path="/cust/appointment/:id">
           <Cust_Appointment />
         </Route>
-
-        {/* customer dashboard */}
-        <Route path="/dashboard/ws/:id"></Route>
-        {/* workshop dashboard */}
-        <Route></Route>
+        <Route path="/dashboard/ws/:id">
+          <WsDashboard />
+        </Route>
+        <Route path="/ws/appointment/:id">
+          <WsAppointment />
+        </Route>
+        <Route path="/ws/job/:id">
+          <WsJob />
+        </Route>
+        <Route exact path="/">
+          <Redirect to="/login" />
+        </Route>
+        <Route path="/login">
+          <Login setIsAuth={setIsAuth} isAuth={isAuth} />
+        </Route>
+        <Route exact path="/register">
+          <Register setIsAuth={setIsAuth} isAuth={isAuth} />
+        </Route>
       </Switch>
     </Router>
   );
