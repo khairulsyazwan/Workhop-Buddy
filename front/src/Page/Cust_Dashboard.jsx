@@ -75,6 +75,7 @@ function Cust_Dashboard() {
     }
   }
 
+
   function changeHandler(e) {
     setAddVehicles({ ...addVehicles, [e.target.name]: e.target.value });
     console.log(addVehicles);
@@ -125,8 +126,6 @@ function Cust_Dashboard() {
     }
   }
 
-  //   console.log(current);
-
   return (
     <>
       <Navbar bg="primary" variant="light">
@@ -166,6 +165,7 @@ function Cust_Dashboard() {
                         <div>{veh.vehicleNumber}</div>
                         <div>{veh.make}</div>
                         <div>{veh.model}</div>
+
 
                         {veh.type === "Car" ? (
                           <i
@@ -271,6 +271,7 @@ function Cust_Dashboard() {
             </Modal>
           </Col>
 
+
           <Col md={4} className="text-center">
             <h2>Appointments</h2>
             <Container className="text-center">
@@ -282,10 +283,12 @@ function Cust_Dashboard() {
                 Create New
               </Button>
             </Container>
+
             {currentAppointments &&
               currentAppointments.map((app) => (
                 <Col>
                   <Card key={app._id} className="text-center mb-3">
+
                     <Card.Header>
                       {app.date}{" "}
                       {app.isAcknowledged ? (

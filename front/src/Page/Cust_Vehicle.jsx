@@ -9,6 +9,7 @@ function Cust_Vehicle() {
   const { id } = useParams();
   const [records, setrecords] = useState([]);
 
+
   useEffect(() => {
     async function getVehicle() {
       try {
@@ -16,6 +17,7 @@ function Cust_Vehicle() {
           `http://localhost:8080/api/customer/vehicle/${id}`
         );
         setVehicle(resp.data.vehicle);
+
         // console.log(resp.data.vehicle);
       } catch (error) {
         console.log(error);
@@ -28,6 +30,7 @@ function Cust_Vehicle() {
         );
         setrecords(resp.data.vehicle.serviceRecord);
         // console.log(resp.data.vehicle.serviceRecord);
+
       } catch (error) {
         console.log(error);
       }
@@ -37,6 +40,7 @@ function Cust_Vehicle() {
   }, []);
 
   console.log(records);
+
   return (
     <div>
       <Container>
@@ -60,6 +64,7 @@ function Cust_Vehicle() {
                         </li>
                       ))}
                     </h3>
+
 
                     <h3>{rec.workshop.name}</h3>
 

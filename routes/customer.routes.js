@@ -68,6 +68,7 @@ router.get("/vehicle/:id/sr", async (req, res) => {
     let vehicle = await Vehicle.findById(req.params.id).populate({
       path: "serviceRecord",
       populate: "workshop",
+
     });
     res.status(200).json({ vehicle });
   } catch (error) {
