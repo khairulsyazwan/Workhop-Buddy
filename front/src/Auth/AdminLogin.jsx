@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import FormikControl from './FormikControl'
+//import FormikControl from './FormikControl'
 
 function Login() {
   const initialValues = {
@@ -25,13 +25,13 @@ function Login() {
       {(formik) => {
         return (
           <Form>
-            <FormikControl
+            <Formik
               control='input'
               type='email'
               label='Email'
               name='email'
             />
-            <FormikControl
+            <Formik
               control='input'
               type='password'
               label='Password'
