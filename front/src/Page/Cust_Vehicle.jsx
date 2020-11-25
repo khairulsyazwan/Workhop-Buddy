@@ -28,7 +28,7 @@ function Cust_Vehicle() {
           `http://localhost:8080/api/customer/vehicle/${id}/sr`
         );
         setrecords(resp.data.vehicle.serviceRecord);
-        // console.log(resp.data.vehicle.serviceRecord);
+        console.log(resp.data.vehicle.serviceRecord);
       } catch (error) {
         console.log(error);
       }
@@ -61,7 +61,8 @@ function Cust_Vehicle() {
         </Row>
         <Row>
           <Col md={12} className="my-2">
-            <h1>Service History</h1>
+            {records && records.length != 0 && <h1>Service History</h1>}
+
             {records &&
               records.map((rec) => (
                 <Card key={rec._id} className="my-2">
