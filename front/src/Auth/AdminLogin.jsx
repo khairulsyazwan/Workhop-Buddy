@@ -3,7 +3,7 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import FormikControl from './FormikControl'
 
-function Login() {
+function AdminLogin() {
   const initialValues = {
     email: '',
     password: '',
