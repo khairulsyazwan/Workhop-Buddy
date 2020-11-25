@@ -6,7 +6,6 @@ import axios from "axios";
 function Register({ setIsAuth, isAuth }) {
   const [newUser, setNewUser] = useState({});
 
-
   function changeHandler(e) {
     setNewUser((user) => ({ ...user, [e.target.name]: e.target.value }));
   }

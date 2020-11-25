@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import Carousels from './Carousels'
+import Carousels from "./Carousels";
 import { Button, Col, Container, Form, Image } from "react-bootstrap";
 import { NavLink, Redirect } from "react-router-dom";
 import axios from "axios";
-
 
 function Login({ setIsAuth, isAuth }) {
   const [user, setUser] = useState({});
@@ -29,49 +28,49 @@ function Login({ setIsAuth, isAuth }) {
 
   if (isAuth) {
     let id = localStorage.getItem("id");
-    return <Redirect to={`/dashboard/${id}`} />;
+    return <Redirect to={`/dashboard/customer/${id}`} />;
   }
 
   return (
     <>
-    <div style={{ height: "100vh" }} className="splash">
-      <Container className="text-center">
-        <Col md={4} className="mx-auto py-5">
-          <Image
-            src="./images/WS.png"
-            style={{
-              height: "25vh",
-              marginBottom: "-5vh",
-              maxWidth: "100%",
-              maxHeight: "100%",
-            }}
-          ></Image>
+      <div style={{ height: "100vh" }} className="splash">
+        <Container className="text-center">
+          <Col md={4} className="mx-auto py-5">
+            <Image
+              src="./images/WS.png"
+              style={{
+                height: "25vh",
+                marginBottom: "-5vh",
+                maxWidth: "100%",
+                maxHeight: "100%",
+              }}
+            ></Image>
 
-          <Form.Row className="mb-3">
-            <Form.Control
-              placeholder="email@email.com"
-              onChange={changeHandler}
-              name="email"
-            />
-          </Form.Row>
-          <Form.Row className="mb-3">
-            <Form.Control
-              onChange={changeHandler}
-              placeholder="password"
-              name="password"
-              type="password"
-            />
-          </Form.Row>
-          <Form.Row className="mb-3">
-            <Button block onClick={login}>
-              Login
-            </Button>
-          </Form.Row>
-          <NavLink to="/register">Sign Up Now</NavLink>
-        </Col>
-      </Container>
-      <Carousels />
-    </div>
+            <Form.Row className="mb-3">
+              <Form.Control
+                placeholder="email@email.com"
+                onChange={changeHandler}
+                name="email"
+              />
+            </Form.Row>
+            <Form.Row className="mb-3">
+              <Form.Control
+                onChange={changeHandler}
+                placeholder="password"
+                name="password"
+                type="password"
+              />
+            </Form.Row>
+            <Form.Row className="mb-3">
+              <Button block onClick={login}>
+                Login
+              </Button>
+            </Form.Row>
+            <NavLink to="/register">Sign Up Now</NavLink>
+          </Col>
+        </Container>
+        <Carousels />
+      </div>
     </>
   );
 }

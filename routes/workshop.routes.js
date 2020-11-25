@@ -5,7 +5,6 @@ const Vehicle = require("../models/vehicle.model");
 const Workshop = require("../models/workshop.model");
 const router = require("express").Router();
 
-
 router.get("/", async (req, res) => {
   try {
     let workshop = await Workshop.find();
@@ -23,6 +22,18 @@ router.get("/:id", async (req, res) => {
     let workshop = await Workshop.findById(req.params.id).populate(
       "customers appointments"
     );
+    res.status(200).json({ workshop });
+  } catch (error) {
+    res.status(400).json({ message: "no data" });
+  }
+});
+
+router.get("/:id/app", async (req, res) => {
+  try {
+    let workshop = await Workshop.findById(req.params.id).populate({
+      path: "appointments",
+      populate: "vehicle ",
+    });
     res.status(200).json({ workshop });
   } catch (error) {
     res.status(400).json({ message: "no data" });
