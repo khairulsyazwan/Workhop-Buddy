@@ -27,6 +27,7 @@ import WsDashboard from "./Page/WsDashboard";
 import WsAppointment from "./Page/WsAppointment";
 import WsJob from "./Page/WsJob";
 import WsCustomers from "./Page/WsCustomers";
+import Cust_Workshops from "./Page/Cust_Workshops";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -82,6 +83,9 @@ function App() {
         </Route>
         <Route path="/cust/appointment/:id">
           <Cust_Appointment />
+        </Route>
+        <Route path="/cust/workshops/">
+          <Cust_Workshops />
         </Route>
         <Route path="/dashboard/ws/:id">
           <WsDashboard />
