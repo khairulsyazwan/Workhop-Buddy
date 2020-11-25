@@ -11,8 +11,13 @@ function Cust_Appointment() {
   useEffect(() => {
     async function getApp(params) {
       try {
+        let token = localStorage.getItem("token");
         let resp = await axios.get(
-          `http://localhost:8080/api/customer/appointment/${id}`
+          `http://localhost:8080/api/customer/appointment/${id}`, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
         );
         console.log(resp.data.appointment);
         setApp(resp.data.appointment);
