@@ -3,6 +3,7 @@ const Customer = require("../models/customer.model");
 const Record = require("../models/record.model");
 const Vehicle = require("../models/vehicle.model");
 const router = require("express").Router();
+const passport = require('../lib/passportConfig');
 
 // GET customer data
 router.get("/:id", async (req, res) => {
@@ -18,7 +19,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // GET customer appointment data
-router.get("/:id/app", async (req, res) => {
+router.get("/:id/app", passport.authenticate("jwt", { session: false }), async (req, res) => {
   try {
     let customer = await Customer.findById(req.params.id).populate({
       path: "appointments vehicles",
@@ -31,7 +32,7 @@ router.get("/:id/app", async (req, res) => {
 });
 
 // get record data
-router.get("/record/:id", async (req, res) => {
+router.get("/record/:id", passport.authenticate("jwt", { session: false }), async (req, res) => {
   try {
     let record = await Record.findById(req.params.id).populate("workshop");
     res.status(200).json({ record });
@@ -41,7 +42,7 @@ router.get("/record/:id", async (req, res) => {
 });
 
 // get appointment data
-router.get("/appointment/:id", async (req, res) => {
+router.get("/appointment/:id", passport.authenticate("jwt", { session: false }), async (req, res) => {
   try {
     let appointment = await Appointment.findById(req.params.id).populate(
       "workshop vehicle"
@@ -53,7 +54,7 @@ router.get("/appointment/:id", async (req, res) => {
 });
 
 // get vehicle data
-router.get("/vehicle/:id", async (req, res) => {
+router.get("/vehicle/:id", passport.authenticate("jwt", { session: false }), async (req, res) => {
   try {
     let vehicle = await Vehicle.findById(req.params.id);
     res.status(200).json({ vehicle });
@@ -63,7 +64,7 @@ router.get("/vehicle/:id", async (req, res) => {
 });
 
 // get vehicle data2
-router.get("/vehicle/:id/sr", async (req, res) => {
+router.get("/vehicle/:id/sr", passport.authenticate("jwt", { session: false }), async (req, res) => {
   try {
     let vehicle = await Vehicle.findById(req.params.id).populate({
       path: "serviceRecord",
@@ -77,7 +78,7 @@ router.get("/vehicle/:id/sr", async (req, res) => {
 });
 
 //POST add new vehicle
-router.post("/newvehicle/:id", async (req, res) => {
+router.post("/newvehicle/:id", passport.authenticate("jwt", { session: false }), async (req, res) => {
   try {
     let { type, vehicleNumber, make, model } = req.body;
 

@@ -34,9 +34,9 @@ function Login({ setIsAuth, isAuth }) {
     },
     validationSchema: Schema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
-      console.log(values)
-      //login(values)
+      // alert(JSON.stringify(values, null, 2))
+      // console.log(values)
+      login(values)
     },
   })
 

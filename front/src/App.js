@@ -31,24 +31,7 @@ import Cust_Workshops from './Page/Cust_Workshops'
 
 function App() {
   const [isAuth, setIsAuth] = useState(false)
-
-  useEffect(() => {
-    checkUser()
-  }, [])
-
-  async function checkUser() {
-    try {
-      let token = localStorage.getItem('token')
-      let resp = await axios.get('http://localhost:8080/api/auth/authtoken', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      // console.log(resp.data.user._id);
-      localStorage.setItem('user', resp.data.user._id)
-      setIsAuth(true)
-    } catch (error) {}
-  }
+  const [isRegis, setIsRegis] = useState(false)
 
   function logout() {
     localStorage.removeItem('token')
@@ -90,7 +73,7 @@ function App() {
           <Login setIsAuth={setIsAuth} isAuth={isAuth} />
         </Route>
         <Route exact path='/register'>
-          <Register setIsAuth={setIsAuth} isAuth={isAuth} />
+          <Register setIsRegis={setIsRegis} isRegis={isRegis} />
         </Route>
       </Switch>
     </Router>

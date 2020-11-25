@@ -47,8 +47,12 @@ function Cust_Dashboard() {
 
   async function getCustomer() {
     try {
-      let resp = await axios.get(`http://localhost:8080/api/customer/${id}`)
-      console.log(resp.data)
+      let token = localStorage.getItem('token')
+      let resp = await axios.get(`http://localhost:8080/api/customer/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       await setCurrent(resp.data.customer)
     } catch (error) {
       console.log(error)
@@ -57,8 +61,15 @@ function Cust_Dashboard() {
 
   async function getCustomerApp() {
     try {
-      let resp = await axios.get(`http://localhost:8080/api/customer/${id}/app`)
-      console.log(resp.data.customer.appointments)
+      let token = localStorage.getItem('token')
+      let resp = await axios.get(
+        `http://localhost:8080/api/customer/${id}/app`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       await setCurrentAppointments(resp.data.customer.appointments)
     } catch (error) {
       console.log(error)
@@ -67,8 +78,12 @@ function Cust_Dashboard() {
 
   async function getWorkshop() {
     try {
-      let resp = await axios.get(`http://localhost:8080/api/workshop`)
-      console.log(resp.data)
+      let token = localStorage.getItem('token')
+      let resp = await axios.get(`http://localhost:8080/api/workshop`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       await setWorkshop(resp.data.workshop)
     } catch (error) {
       console.log(error)
@@ -88,9 +103,15 @@ function Cust_Dashboard() {
   }
   async function addVehicle() {
     try {
+      let token = localStorage.getItem('token')
       await axios.post(
         `http://localhost:8080/api/customer/newvehicle/${id}`,
-        addVehicles
+        addVehicles,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       getCustomer()
       handleClose()
@@ -113,9 +134,15 @@ function Cust_Dashboard() {
       } else {
         appoint = { vehicle, date, work, workshop }
       }
+      let token = localStorage.getItem('token')
       let resp = await axios.post(
         `http://localhost:8080/api/appointment/new/${id}`,
-        appoint
+        appoint,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       getCustomer()
       getCustomerApp()

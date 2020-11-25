@@ -4,8 +4,9 @@ import { NavLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import { useFormik } from 'formik'
 
-function Register({ setIsAuth, isAuth }) {
+function Register({ setIsRegis, isRegis }) {
   const [newUser, setNewUser] = useState({})
+
 
   function changeHandler(e) {
     setNewUser((user) => ({ ...user, [e.target.name]: e.target.value }))
@@ -17,14 +18,14 @@ function Register({ setIsAuth, isAuth }) {
         'http://localhost:8080/api/auth/register',
         newUser
       )
-      setIsAuth(true)
+      setIsRegis(true)
     } catch (error) {
       console.log(error)
     }
   }
 
-  if (isAuth) {
-    return <Redirect to={'/login'} />
+  if (isRegis) {
+    return <Redirect to={'/'} />
   }
 
   return (
