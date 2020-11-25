@@ -148,7 +148,7 @@ function Cust_Dashboard() {
             <Row>
               {current && current.vehicles.length === 0 && (
                 <Col md={3}>
-                  <Card className="text-center">
+                  <Card className="text-center rounded">
                     <Card.Body>
                       <i
                         style={{ fontSize: "3rem" }}
@@ -275,7 +275,7 @@ function Cust_Dashboard() {
             </Modal>
           </Col>
 
-          <Col md={4} className="text-center">
+          <Col md={4} className="text-center border-left">
             <div className="d-flex justify-content-center mb-3">
               <h2>Appointments</h2>
               <Button

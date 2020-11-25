@@ -28,6 +28,8 @@ import WsAppointment from "./Page/WsAppointment";
 import WsJob from "./Page/WsJob";
 import WsCustomers from "./Page/WsCustomers";
 import Cust_Workshops from "./Page/Cust_Workshops";
+import AdminRegister from "./Auth/AdminRegister";
+import AdminLogin from "./Auth/AdminLogin";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -57,23 +59,6 @@ function App() {
 
   return (
     <Router>
-      {isAuth && (
-        <Navbar>
-          <Navbar.Brand>
-            <Image
-              style={{
-                width: "12vw",
-                marginBottom: "-3vh",
-                marginTop: "-3vh",
-              }}
-              src="Public/WS.png"
-              alt="WorkShop Buddy"
-            />
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar>
-      )}
-
       <Switch>
         <Route path="/dashboard/cust/:id">
           <Cust_Dashboard />
@@ -100,7 +85,7 @@ function App() {
         <Route path="/ws/customers/:id">
           <WsCustomers />
         </Route>
-        <Route exact pat h="/">
+        <Route exact path="/">
           <Redirect to="/login" />
         </Route>
         <Route path="/login">
@@ -108,6 +93,12 @@ function App() {
         </Route>
         <Route exact path="/register">
           <Register setIsAuth={setIsAuth} isAuth={isAuth} />
+        </Route>
+        <Route exact path="/register/ws">
+          <AdminRegister setIsAuth={setIsAuth} isAuth={isAuth} />
+        </Route>
+        <Route exact path="/login/ws">
+          <AdminLogin setIsAuth={setIsAuth} isAuth={isAuth} />
         </Route>
       </Switch>
     </Router>
