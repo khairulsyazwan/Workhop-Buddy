@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Card, Col, Container, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Card, Col, Container, Nav, Navbar, Row, Table } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
 
 function Cust_Vehicle() {
   const [vehicle, setVehicle] = useState({});
@@ -42,40 +42,70 @@ function Cust_Vehicle() {
   console.log(records);
 
   return (
-    <div>
+    <>
+      <Navbar bg="primary" variant="light">
+        <Navbar.Brand>Workshop Buddy</Navbar.Brand>
+        <Nav className="mr-auto">
+          <Nav.Link as={Link} to="/">
+            Home
+          </Nav.Link>
+          <Nav.Link>Features</Nav.Link>
+        </Nav>
+      </Navbar>
       <Container>
-        <h1>Vehicle Details</h1>
         <Row>
-          <Col>
+          <Col md={12} className="my-2">
+            <h1>Vehicle Details</h1>
             <h3>{vehicle && vehicle.make}</h3>
             <h3>{vehicle && vehicle.model}</h3>
             <h3>{vehicle && vehicle.vehicleNumber}</h3>
           </Col>
-          <Col>
-            <h2>Service History</h2>
+        </Row>
+        <Row>
+          <Col md={12} className="my-2">
+            <h1>Service History</h1>
             {records &&
               records.map((rec) => (
-                <Card key={rec._id}>
+                <Card key={rec._id} className="my-2">
+                  <Card.Header>
+                    <h4>{rec.date}</h4>
+                  </Card.Header>
                   <Card.Body>
-                    <h3>
+                    <h5>{rec.workshop.name}</h5>
+                    <Table
+                      striped
+                      bordered
+                      hover
+                      size="sm"
+                      className="text-center"
+                    >
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Item</th>
+                          <th>Quantity</th>
+                          <th>Price</th>
+                        </tr>
+                      </thead>
                       {rec.item.map((it, index) => (
-                        <li key={index}>
-                          {it.item} {it.qty} {it.price}
-                        </li>
+                        <tbody key={index}>
+                          <tr>
+                            <td>{index + 1}</td>
+                            <td>{it.item}</td>
+                            <td>{it.qty}</td>
+                            <td>${it.price}</td>
+                          </tr>
+                        </tbody>
                       ))}
-                    </h3>
+                    </Table>
 
-
-                    <h3>{rec.workshop.name}</h3>
-
-                    <h3>{rec.date}</h3>
                   </Card.Body>
                 </Card>
               ))}
           </Col>
         </Row>
       </Container>
-    </div>
+    </>
   );
 }
 

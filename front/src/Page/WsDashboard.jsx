@@ -47,18 +47,23 @@ function WsDashboard() {
         <Navbar.Brand>Workshop Buddy</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link to="#home">Home</Nav.Link>
-          <Nav.Link>Features</Nav.Link>
+          <Nav.Link>Customers</Nav.Link>
         </Nav>
       </Navbar>
       <Container>
-        <h1>Welcome, {current && current.name} !</h1>
+        <div className="my-3">
+          <h1>Welcome, {current && current.name} !</h1>
+        </div>
 
         <Row>
-          <Col md={8}>
-            <h2>Appointments</h2>
+          <Col md={12}>
+            <div className="my-3">
+              <h2>Appointments</h2>
+            </div>
+
             <Row>
               {current && current.appointments.length === 0 && (
-                <Col md={6}>
+                <Col md={12}>
                   <Card className="text-center">
                     <Card.Body>
                       <i
@@ -72,34 +77,45 @@ function WsDashboard() {
               )}
               {current &&
                 current.appointments.map((app) => (
-                  <Col md={12} sm={6}>
-                    <div
-                      key={app._id}
-                      className="border border-secondary text-center mb-3 d-flex flex-row bd-highlight mb-3 justify-content-around"
-                    >
-                      <div>
-                        {app.isAcknowledged ? (
-                          <span class="badge badge-pill badge-success">
-                            Acknowledged
-                          </span>
-                        ) : (
-                          <span class="badge badge-pill badge-danger">
-                            Pending
-                          </span>
-                        )}
-                      </div>
-                      <div>{app.date}</div>
-                      <div>{app.work}</div>
-                      <div>
+                  <Col md={4} sm={6}>
+                    <Card key={app._id} className="text-center shadow">
+                      <Card.Header>
+                        <Card.Title>
+                          <div>{app.date}</div>
+                        </Card.Title>
+
+                        <div>
+                          {app.isAcknowledged ? (
+                            <span class="badge badge-pill badge-success">
+                              Acknowledged
+                            </span>
+                          ) : (
+                            <span class="badge badge-pill badge-danger">
+                              Pending
+                            </span>
+                          )}
+                        </div>
+                      </Card.Header>
+                      <Card.Body>
+                        <i
+                          style={{ fontSize: "4rem" }}
+                          class="fas fa-tools"
+                        ></i>
+                        <div className="my-3">
+                          <h5>{app.work}</h5>
+                        </div>
+                      </Card.Body>
+                      <Card.Footer>
                         <Button
                           variant="outline-info"
                           as={Link}
                           to={`/ws/appointment/${app._id}`}
+                          className="btn-block"
                         >
                           View
                         </Button>
-                      </div>
-                    </div>
+                      </Card.Footer>
+                    </Card>
                   </Col>
                 ))}
             </Row>
