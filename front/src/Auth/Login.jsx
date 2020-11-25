@@ -28,7 +28,7 @@ function Login({ setIsAuth, isAuth }) {
 
   if (isAuth) {
     let id = localStorage.getItem("id");
-    return <Redirect to={`/dashboard/customer/${id}`} />;
+    return <Redirect to={`/dashboard/cust/${id}`} />;
   }
 
   return (

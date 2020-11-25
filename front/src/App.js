@@ -56,23 +56,6 @@ function App() {
 
   return (
     <Router>
-      {isAuth && (
-        <Navbar>
-          <Navbar.Brand>
-            <Image
-              style={{
-                width: "12vw",
-                marginBottom: "-3vh",
-                marginTop: "-3vh",
-              }}
-              src="Public/WS.png"
-              alt="WorkShop Buddy"
-            />
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar>
-      )}
-
       <Switch>
         <Route path="/dashboard/cust/:id">
           <Cust_Dashboard />
