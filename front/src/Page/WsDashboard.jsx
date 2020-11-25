@@ -47,7 +47,9 @@ function WsDashboard() {
         <Navbar.Brand>Workshop Buddy</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link to="#home">Home</Nav.Link>
-          <Nav.Link>Customers</Nav.Link>
+          <Nav.Link as={Link} to={`/ws/customers/${id}`}>
+            Customers
+          </Nav.Link>
         </Nav>
       </Navbar>
       <Container>

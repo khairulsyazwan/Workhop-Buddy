@@ -134,7 +134,7 @@ function Cust_Dashboard() {
           <Nav.Link as={Link} to="/">
             Home
           </Nav.Link>
-          <Nav.Link as={Link} to="/">
+          <Nav.Link as={Link} to="/cust/workshops/">
             Workshops
           </Nav.Link>
         </Nav>
