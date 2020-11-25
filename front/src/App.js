@@ -1,10 +1,5 @@
 
 import "./App.css";
-import LoginPage from "./LoginPage/LoginPage";
-import About from "./LoginPage/About";
-import Contact from "./LoginPage/Contact";
-import Services from "./LoginPage/Services";
-import WorkShop from "./LoginPage/WorkShop";
 import Login from './Auth/Login';
 import Register from './Auth/Register';
 
@@ -20,6 +15,7 @@ import axios from "axios";
 import Cust_Dashboard from "./Page/Cust_Dashboard";
 import Cust_Vehicle from "./Page/Cust_Vehicle";
 import Cust_Appointment from "./Page/Cust_Appointment";
+import { Image, Navbar } from "react-bootstrap";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
