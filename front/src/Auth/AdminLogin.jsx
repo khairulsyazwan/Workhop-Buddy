@@ -43,7 +43,10 @@ function AdminLogin({ setIsAuth, isAuth }) {
 
   async function login(user) {
     try {
-      let resp = await axios.post("http://localhost:8080/api/auth/login", user);
+      let resp = await axios.post(
+        "http://localhost:8080/api/auth/login/ws",
+        user
+      );
       //token is here
       console.log(resp.data);
       localStorage.setItem("token", resp.data.token);

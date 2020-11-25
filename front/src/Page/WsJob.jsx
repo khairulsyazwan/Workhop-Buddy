@@ -25,8 +25,14 @@ function WsJob() {
 
   async function getApp() {
     try {
+      let token = localStorage.getItem("token");
       let resp = await axios.get(
-        `http://localhost:8080/api/workshop/appointment/${id}`
+        `http://localhost:8080/api/workshop/appointment/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       //   console.log(resp.data.appointment);
       setapp(resp.data.appointment);
@@ -70,9 +76,15 @@ function WsJob() {
 
   async function completeJob() {
     try {
+      let token = localStorage.getItem("token");
       let resp = await axios.post(
         `http://localhost:8080/api/workshop/complete/${id}`,
-        job
+        job,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       console.log(resp);
 

@@ -35,24 +35,6 @@ function App() {
   const [isAuth, setIsAuth] = useState(false);
   const [isRegis, setIsRegis] = useState(false);
 
-  useEffect(() => {
-    checkUser();
-  }, []);
-
-  async function checkUser() {
-    try {
-      let token = localStorage.getItem("token");
-      let resp = await axios.get("http://localhost:8080/api/auth/authtoken", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // console.log(resp.data.user._id);
-      localStorage.setItem("user", resp.data.user._id);
-      setIsAuth(true);
-    } catch (error) {}
-  }
-
   function logout() {
     localStorage.removeItem("token");
     setIsAuth(false);

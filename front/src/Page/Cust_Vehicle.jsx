@@ -12,9 +12,13 @@ function Cust_Vehicle() {
   useEffect(() => {
     async function getVehicle() {
       try {
+        let token = localStorage.getItem("token");
         let resp = await axios.get(
-          `http://localhost:8080/api/customer/vehicle/${id}`
-        );
+          `http://localhost:8080/api/customer/vehicle/${id}`, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setVehicle(resp.data.vehicle);
 
         // console.log(resp.data.vehicle);
@@ -24,8 +28,13 @@ function Cust_Vehicle() {
     }
     async function getSR() {
       try {
+        let token = localStorage.getItem("token");
         let resp = await axios.get(
-          `http://localhost:8080/api/customer/vehicle/${id}/sr`
+          `http://localhost:8080/api/customer/vehicle/${id}/sr`, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
         );
         setrecords(resp.data.vehicle.serviceRecord);
         console.log(resp.data.vehicle.serviceRecord);

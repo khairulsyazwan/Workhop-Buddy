@@ -20,16 +20,36 @@ function WsAppointment() {
   }, []);
 
   async function getApp() {
+    let token = localStorage.getItem("token");
     let resp = await axios.get(
-      `http://localhost:8080/api/workshop/appointment/${id}`
+      `http://localhost:8080/api/workshop/appointment/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     console.log(resp.data.appointment);
     setapp(resp.data.appointment);
   }
 
   async function confirmApp() {
-    await axios.put(`http://localhost:8080/api/workshop/appointment/${id}`);
-    getApp();
+    let token = localStorage.getItem("token");
+    console.log(token);
+    try {
+      await axios.put(
+        `http://localhost:8080/api/workshop/appointment/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      getApp();
+    } catch (error) {
+      console.log(error.response);
+    }
   }
   return (
     <>
