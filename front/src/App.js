@@ -9,7 +9,6 @@ import {
   Image,
 } from "react-bootstrap";
 
-
 import {
   BrowserRouter as Router,
   Redirect,
@@ -27,6 +26,8 @@ import Register from "./Auth/Register";
 import WsDashboard from "./Page/WsDashboard";
 import WsAppointment from "./Page/WsAppointment";
 import WsJob from "./Page/WsJob";
+import WsCustomers from "./Page/WsCustomers";
+import Cust_Workshops from "./Page/Cust_Workshops";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -66,6 +67,9 @@ function App() {
         <Route path="/cust/appointment/:id">
           <Cust_Appointment />
         </Route>
+        <Route path="/cust/workshops/">
+          <Cust_Workshops />
+        </Route>
         <Route path="/dashboard/ws/:id">
           <WsDashboard />
         </Route>
@@ -75,7 +79,11 @@ function App() {
         <Route path="/ws/job/:id">
           <WsJob />
         </Route>
-        <Route exact path="/">
+
+        <Route path="/ws/customers/:id">
+          <WsCustomers />
+        </Route>
+        <Route exact pat h="/">
           <Redirect to="/login" />
         </Route>
         <Route path="/login">
