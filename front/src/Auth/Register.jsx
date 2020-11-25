@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, Col, Container, Form, Image } from 'react-bootstrap'
 import { NavLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
+import { useFormik } from 'formik'
 
 function Register({ setIsAuth, isAuth }) {
   const [newUser, setNewUser] = useState({})
