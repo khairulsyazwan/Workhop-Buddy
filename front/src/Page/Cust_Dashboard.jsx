@@ -89,7 +89,7 @@ function Cust_Dashboard() {
   }
   async function addVehicle() {
     try {
-      let resp = await axios.post(
+      await axios.post(
         `http://localhost:8080/api/customer/newvehicle/${id}`,
         addVehicles
       );
@@ -131,14 +131,21 @@ function Cust_Dashboard() {
       <Navbar bg="primary" variant="light">
         <Navbar.Brand>Workshop Buddy</Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link to="#home">Home</Nav.Link>
-          <Nav.Link>Features</Nav.Link>
+          <Nav.Link as={Link} to="/">
+            Home
+          </Nav.Link>
+          <Nav.Link as={Link} to="/">
+            Workshops
+          </Nav.Link>
         </Nav>
       </Navbar>
-      <Container className="mt-2">
+      <Container className="my-3">
         <Row>
           <Col md={8}>
-            <h1>Welcome, {current && current.firstname}!</h1>
+            <div className="mb-3">
+              <h1>Welcome, {current && current.firstname}!</h1>
+            </div>
+
             <Row>
               {current && current.vehicles.length === 0 && (
                 <Col md={3}>
@@ -160,12 +167,8 @@ function Cust_Dashboard() {
               {current &&
                 current.vehicles.map((veh) => (
                   <Col md={4} sm={6}>
-                    <Card key={veh._id} className="text-center mb-3">
+                    <Card key={veh._id} className="text-center mb-3 shadow">
                       <Card.Body>
-                        <div>{veh.vehicleNumber}</div>
-                        <div>{veh.make}</div>
-                        <div>{veh.model}</div>
-
 
                         {veh.type === "Car" ? (
                           <i
@@ -178,6 +181,9 @@ function Cust_Dashboard() {
                             class="fas fa-motorcycle"
                           ></i>
                         )}
+                        <div>{veh.vehicleNumber}</div>
+                        <div>{veh.make}</div>
+                        <div>{veh.model}</div>
                       </Card.Body>
                       <Card.Footer>
                         <Button
@@ -273,53 +279,59 @@ function Cust_Dashboard() {
 
 
           <Col md={4} className="text-center">
-            <h2>Appointments</h2>
-            <Container className="text-center">
+            <div className="d-flex justify-content-center mb-3">
+              <h2>Appointments</h2>
               <Button
-                className="my-2 btn-block"
+                className="my-1 mx-2 rounded-circle"
                 variant="primary"
                 onClick={handleShow2}
               >
-                Create New
+                +
               </Button>
-            </Container>
+            </div>
 
-            {currentAppointments &&
-              currentAppointments.map((app) => (
-                <Col>
-                  <Card key={app._id} className="text-center mb-3">
-
-                    <Card.Header>
-                      {app.date}{" "}
-                      {app.isAcknowledged ? (
-                        <span class="badge badge-pill badge-success">
-                          Acknowledged
-                        </span>
-                      ) : (
-                        <span class="badge badge-pill badge-danger">
-                          Pending
-                        </span>
-                      )}
-                    </Card.Header>
-                    <Card.Body>
-                      <div>{app.vehicle.vehicleNumber}</div>
-                      <div>{app.work}</div>
-                      <div>{app.workshop.name}</div>
-                      <div>{app.workshop.address}</div>
-                    </Card.Body>
-                    <Card.Footer>
-                      <Button
-                        className="btn-block"
-                        variant="outline-info"
-                        as={Link}
-                        to={`/cust/appointment/${app._id}`}
+            <Container className="text-center">
+              <Row>
+                {currentAppointments &&
+                  currentAppointments.map((app) => (
+                    <Col md={6}>
+                      <Card
+                        key={app._id}
+                        className="border-primary text-center mb-3 shadow"
                       >
-                        View
-                      </Button>
-                    </Card.Footer>
-                  </Card>
-                </Col>
-              ))}
+                        <Card.Header>
+                          {app.date}
+                          <br />
+                          {app.isAcknowledged ? (
+                            <span class="badge badge-pill badge-success">
+                              Acknowledged
+                            </span>
+                          ) : (
+                            <span class="badge badge-pill badge-danger">
+                              Pending
+                            </span>
+                          )}
+                        </Card.Header>
+                        <Card.Body>
+                          <div>{app.vehicle.vehicleNumber}</div>
+                          <div>{app.work}</div>
+                          <div>{app.workshop.name}</div>
+                        </Card.Body>
+                        <Card.Footer>
+                          <Button
+                            className="btn-block"
+                            variant="outline-primary"
+                            as={Link}
+                            to={`/cust/appointment/${app._id}`}
+                          >
+                            View
+                          </Button>
+                        </Card.Footer>
+                      </Card>
+                    </Col>
+                  ))}
+              </Row>
+            </Container>
 
             {/* New Appointment Modal */}
 
