@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Carousels from './Carousels'
+// import Carousels from './Carousels'
 import { Button, Col, Container, Form, Image } from 'react-bootstrap'
 import { NavLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
