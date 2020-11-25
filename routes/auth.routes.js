@@ -67,12 +67,14 @@ router.post('/login', async (req, res, next) => {
       req.login(user, { session: false }, async (error) => {
         if (error) return next(error)
 
+
         const body = { _id: user._id }
         const token = jwt.sign({ user: body }, process.env.SECRET)
         const id = user.id
 
         return res.status(200).json({ token, id })
       })
+
     } catch (error) {
       return next(error)
     }

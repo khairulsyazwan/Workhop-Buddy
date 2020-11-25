@@ -40,6 +40,21 @@ router.get("/:id/app", async (req, res) => {
   }
 });
 
+router.get("/:id/cust", async (req, res) => {
+  try {
+    let workshop = await Workshop.findById(req.params.id).populate({
+      path: "customers",
+      populate: {
+        path: "vehicles",
+        populate: "serviceRecord",
+      },
+    });
+    res.status(200).json({ workshop });
+  } catch (error) {
+    res.status(400).json({ message: "no data" });
+  }
+});
+
 // GET single appointment
 // appointment id
 router.get("/appointment/:id", async (req, res) => {
