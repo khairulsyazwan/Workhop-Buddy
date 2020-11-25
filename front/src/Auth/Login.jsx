@@ -35,8 +35,8 @@ function Login({ setIsAuth, isAuth }) {
     },
     validationSchema: Schema,
     onSubmit: (values) => {
-      // alert(JSON.stringify(values, null, 2));
-      // console.log(values);
+      // alert(JSON.stringify(values, null, 2))
+      // console.log(values)
       login(values);
     },
   });
@@ -101,7 +101,7 @@ function Login({ setIsAuth, isAuth }) {
           </Form>
           <NavLink to="/register">Sign Up Now </NavLink>
           <div>
-            <NavLink to="/login/ws">Admin Login</NavLink>
+            <NavLink to="/ws/login">Admin Login</NavLink>
           </div>
         </Col>
       </Container>

@@ -33,6 +33,7 @@ import AdminLogin from "./Auth/AdminLogin";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
+  const [isRegis, setIsRegis] = useState(false);
 
   useEffect(() => {
     checkUser();
@@ -92,12 +93,12 @@ function App() {
           <Login setIsAuth={setIsAuth} isAuth={isAuth} />
         </Route>
         <Route exact path="/register">
-          <Register setIsAuth={setIsAuth} isAuth={isAuth} />
+          <Register setIsRegis={setIsRegis} isRegis={isRegis} />
         </Route>
         <Route exact path="/register/ws">
           <AdminRegister setIsAuth={setIsAuth} isAuth={isAuth} />
         </Route>
-        <Route exact path="/login/ws">
+        <Route exact path="/ws/login">
           <AdminLogin setIsAuth={setIsAuth} isAuth={isAuth} />
         </Route>
       </Switch>
