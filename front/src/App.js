@@ -28,6 +28,8 @@ import WsAppointment from "./Page/WsAppointment";
 import WsJob from "./Page/WsJob";
 import WsCustomers from "./Page/WsCustomers";
 import Cust_Workshops from "./Page/Cust_Workshops";
+import AdminRegister from "./Auth/AdminRegister";
+import AdminLogin from "./Auth/AdminLogin";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -74,6 +76,12 @@ function App() {
         </Route>
         <Route exact path="/register">
           <Register setIsRegis={setIsRegis} isRegis={isRegis} />
+        </Route>
+        <Route exact path="/register/ws">
+          <AdminRegister setIsAuth={setIsAuth} isAuth={isAuth} />
+        </Route>
+        <Route exact path="/ws/login">
+          <AdminLogin setIsAuth={setIsAuth} isAuth={isAuth} />
         </Route>
       </Switch>
     </Router>

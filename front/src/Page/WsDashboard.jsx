@@ -19,7 +19,12 @@ function WsDashboard() {
   useEffect(() => {
     async function getWs() {
       try {
-        let resp = await axios.get(`http://localhost:8080/api/workshop/${id}`);
+        let token = localStorage.getItem("token");
+        let resp = await axios.get(`http://localhost:8080/api/workshop/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         console.log(resp.data.workshop);
         setCurrent(resp.data.workshop);
       } catch (error) {

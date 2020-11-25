@@ -8,7 +8,12 @@ function Cust_Workshops() {
 
   useEffect(() => {
     async function getWs() {
-      let resp = await axios.get(`http://localhost:8080/api/workshop/`);
+      let token = localStorage.getItem("token");
+      let resp = await axios.get(`http://localhost:8080/api/workshop/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(resp.data.workshop);
       await setWorkshops(resp.data.workshop);
     }
