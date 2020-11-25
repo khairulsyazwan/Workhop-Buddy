@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-// import Carousels from './Carousels'
+import Carousels from './Carousels'
 import { Button, Col, Container, Form, Image } from 'react-bootstrap'
 import { NavLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
@@ -7,6 +7,7 @@ import * as Yup from 'yup'
 import imgs from '../Public/WS.png'
 // import { Formik, Field, Form } from 'formik'
 import { useFormik } from 'formik'
+import { Schema } from 'mongoose'
 
 function Login({ setIsAuth, isAuth }) {
   const [user, setUser] = useState({})
@@ -65,7 +66,7 @@ function Login({ setIsAuth, isAuth }) {
               src={imgs}
               style={{
                 height: '25vh',
-                marginBottom: '-5vh',
+                marginBottom: '1vh',
                 maxWidth: '100%',
                 maxHeight: '100%',
               }}
@@ -100,7 +101,7 @@ function Login({ setIsAuth, isAuth }) {
           </Form>
           <NavLink to='/register'>Sign Up Now </NavLink>
           <div>
-            <NavLink to='/AdminLogin'>Admin Login</NavLink>
+            <NavLink to='/ws/login'>Admin Login</NavLink>
           </div>
         </Col>
       </Container>

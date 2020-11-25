@@ -19,8 +19,14 @@ function WsCustomers() {
   useEffect(() => {
     async function getWs() {
       try {
+        let token = localStorage.getItem("token");
         let resp = await axios.get(
-          `http://localhost:8080/api/workshop/${id}/cust`
+          `http://localhost:8080/api/workshop/${id}/cust`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         console.log(resp.data.workshop.customers);
         setCustomers(resp.data.workshop.customers);
