@@ -90,7 +90,7 @@ export default Register
 // import React from 'react'
 // import { Formik, Form } from 'formik'
 // import * as Yup from 'yup'
-// // import FormikControl from  './FormikControl'
+// import FormikControl from './FormikControl'
 
 // function Register() {
 //   const options = [
@@ -126,19 +126,19 @@ export default Register
 //         return (
 //           <Form>
 //             <Formik control='input' type='email' label='Email' name='email' />
-//             <Formik
+//             <FormikControl
 //               control='input'
 //               type='password'
 //               label='Password'
 //               name='password'
 //             />
-//             <Formik
+//             <FormikControl
 //               control='input'
 //               type='password'
 //               label='Confirm Password'
 //               name='confirmPassword'
 //             />
-//             <Formik
+//             <FormikControl
 //               control='input'
 //               type='text'
 //               label='Phone number'
