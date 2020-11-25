@@ -31,6 +31,7 @@ import Cust_Workshops from "./Page/Cust_Workshops";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
+  const [isRegis, setIsRegis] = useState(false);
 
   useEffect(() => {
     checkUser();
@@ -83,14 +84,14 @@ function App() {
         <Route path="/ws/customers/:id">
           <WsCustomers />
         </Route>
-        <Route exact pat h="/">
+        <Route exact path="/">
           <Redirect to="/login" />
         </Route>
         <Route path="/login">
           <Login setIsAuth={setIsAuth} isAuth={isAuth} />
         </Route>
         <Route exact path="/register">
-          <Register setIsAuth={setIsAuth} isAuth={isAuth} />
+          <Register setIsRegis={setIsRegis} isRegis={isRegis} />
         </Route>
       </Switch>
     </Router>

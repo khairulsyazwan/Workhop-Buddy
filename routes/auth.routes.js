@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
       address,
     })
     await customer.save()
-    res.status(201).json({ message: 'user successfully registered!' })
+    res.status(201).json({ message: 'user successfully registered!'})
   } catch (error) {
     res
       .status(400)
@@ -41,7 +41,8 @@ router.post('/register/ws', async (req, res) => {
       phone,
     })
     await workshop.save()
-    res.status(201).json({ message: 'workshop successfully registered!' })
+    
+    res.status(201).json({ message: 'workshop successfully registered!'})
   } catch (error) {
     res
       .status(400)
