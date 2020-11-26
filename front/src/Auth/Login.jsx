@@ -4,8 +4,6 @@ import { Button, Col, Container, Form, Image } from 'react-bootstrap'
 import { NavLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import * as Yup from 'yup'
-import imgs from '../Public/WS.png'
-// import { Formik, Field, Form } from 'formik'
 import { useFormik } from 'formik'
 
 function Login({ setIsAuth, isAuth }) {
@@ -17,8 +15,8 @@ function Login({ setIsAuth, isAuth }) {
   }
 
   let Schema = Yup.object().shape({
-    email: Yup.string().email(),
-    password: Yup.string(),
+    email: Yup.string().email().required('Required'),
+    password: Yup.string().required('Required'),
   })
   const {
     handleSubmit,

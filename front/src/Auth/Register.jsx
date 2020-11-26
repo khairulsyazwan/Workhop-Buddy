@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Button, Col, Container, Form, Image } from 'react-bootstrap'
 import { NavLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
-
+import * as Yup from 'yup'
+import { Formik, Field, ErrorMessage, useFormik } from 'formik'
 function Register({ setIsRegis, isRegis }) {
   const [newUser, setNewUser] = useState({})
 
@@ -11,9 +12,22 @@ function Register({ setIsRegis, isRegis }) {
   }
 
   let Schema = Yup.object().shape({
-    firstname: Yup.string(),
-    lastname: Yup.string(),
-    email: Yup.string().email(),
+    firstname: Yup.string()
+      .min(2, 'Too Short!')
+      .max(70, 'Too Long!')
+      .required('Required'),
+
+    lastname: Yup.string()
+      .min(2, 'Too Short!')
+      .max(70, 'Too Long!')
+      .required('Required'),
+
+    username: Yup.string()
+      .min(2, 'Too Short!')
+      .max(70, 'Too Long!')
+      .required('Required'),
+
+    email: Yup.string().email('Invalid email').required('Required'),
     password: Yup.string()
       .label('Password')
       .required()
@@ -42,6 +56,7 @@ function Register({ setIsRegis, isRegis }) {
     initialValues: {
       firstname: '',
       lastname: '',
+      username: '',
       email: '',
       password: '',
     },
@@ -75,48 +90,82 @@ function Register({ setIsRegis, isRegis }) {
               WORKSHOP <i class='fas fa-tools'></i> BUDDY
             </strong>
           </h3>
-
-          <Form.Row className='mb-3'>
-            <Form.Control
-              placeholder='First Name'
-              onChange={changeHandler}
-              name='firstname'
-            />
-          </Form.Row>
-          <Form.Row className='mb-3'>
-            <Form.Control
-              placeholder='Last Name'
-              onChange={changeHandler}
-              name='lastname'
-            />
-          </Form.Row>
-          <Form.Row className='mb-3'>
-            <Form.Control
-              placeholder='Username'
-              onChange={changeHandler}
-              name='username'
-            />
-          </Form.Row>
-          <Form.Row className='mb-3'>
-            <Form.Control
-              placeholder='email@email.com'
-              onChange={changeHandler}
-              name='email'
-            />
-          </Form.Row>
-          <Form.Row className='mb-3'>
-            <Form.Control
-              onChange={changeHandler}
-              placeholder='Password'
-              name='password'
-              type='password'
-            />
-          </Form.Row>
-          <Form.Row className='mb-3'>
-            <Button onClick={register} block>
-              Register
-            </Button>
-          </Form.Row>
+          <Form onSubmit={handleSubmit}>
+            <Form.Row className='mb-3'>
+              <Form.Control
+                placeholder='First Name'
+                value={values.firstname}
+                onChange={changeHandler}
+                name='firstname'
+                className={
+                  touched.firstname && errors.firstname ? `is-invalid` : null
+                }
+              />
+              {touched.firstname && errors.firstname ? (
+                <div className='invalid-feedback'>{errors.fistname}</div>
+              ) : null}
+            </Form.Row>
+            <Form.Row className='mb-3'>
+              <Form.Control
+                placeholder='Last Name'
+                value={values.lastname}
+                onChange={changeHandler}
+                name='lastname'
+                className={
+                  touched.lastname && errors.lastname ? `is-invalid` : null
+                }
+              />
+              {touched.lastname && errors.lastname ? (
+                <div className='invalid-feedback'>{errors.lastname}</div>
+              ) : null}
+            </Form.Row>
+            <Form.Row className='mb-3'>
+              <Form.Control
+                placeholder='Username'
+                value={values.username}
+                onChange={changeHandler}
+                name='username'
+                className={
+                  touched.username && errors.username ? `is-invalid` : null
+                }
+              />
+              {touched.username && errors.username ? (
+                <div className='invalid-feedback'>{errors.username}</div>
+              ) : null}
+            </Form.Row>
+            <Form.Row className='mb-3'>
+              <Form.Control
+                placeholder='email@email.com'
+                value={values.email}
+                onChange={changeHandler}
+                name='email'
+                className={touched.email && errors.email ? `is-invalid` : null}
+              />
+              {touched.email && errors.email ? (
+                <div className='invalid-feedback'>{errors.email}</div>
+              ) : null}
+            </Form.Row>
+            <Form.Row className='mb-3'>
+              <Form.Control
+                onChange={changeHandler}
+                placeholder='Password'
+                value={values.password}
+                name='password'
+                type='password'
+                className={
+                  touched.password && errors.password ? `is-invalid` : null
+                }
+              />
+              {touched.email && errors.email ? (
+                <div className='invalid-feedback'>{errors.email}</div>
+              ) : null}
+            </Form.Row>
+            <Form.Row className='mb-3'>
+              <Button onClick={register} block>
+                Register
+              </Button>
+            </Form.Row>
+          </Form>
           <NavLink to='/login'> Back </NavLink>
         </Col>
       </Container>
@@ -125,74 +174,3 @@ function Register({ setIsRegis, isRegis }) {
 }
 
 export default Register
-
-//FORMIK CONTROL---------------------------------
-
-// import React from 'react'
-// import { Formik, Form } from 'formik'
-// import * as Yup from 'yup'
-// import FormikControl from './FormikControl'
-
-// function Register() {
-//   const options = [
-//     { key: 'Email', value: 'emailmoc' },
-//     { key: 'Telephone', value: 'telephonemoc' },
-//   ]
-//   const initialValues = {
-//     email: '',
-//     passworld: '',
-//     confirmPassword: '',
-//     phone: '',
-//   }
-
-//   const validationSchema = Yup.object({
-//     email: Yup.string().email('Invalid email format').required('Required'),
-//     password: Yup.string().required('Required'),
-//     confirmPassword: Yup.string()
-//       .oneOf([Yup.ref('password'), ''], 'Passwords must match')
-//       .required('Required'),
-//     phone: Yup.string().required('Required'),
-//   })
-
-//   const onSubmit = (values) => {
-//     console.log('Form data', values)
-//   }
-//   return (
-//     <Formik
-//       initialValues={initialValues}
-//       validationSchema={validationSchema}
-//       onSubmit={onSubmit}
-//     >
-//       {(formik) => {
-//         return (
-//           <Form>
-//             <Formik control='input' type='email' label='Email' name='email' />
-//             <FormikControl
-//               control='input'
-//               type='password'
-//               label='Password'
-//               name='password'
-//             />
-//             <FormikControl
-//               control='input'
-//               type='password'
-//               label='Confirm Password'
-//               name='confirmPassword'
-//             />
-//             <FormikControl
-//               control='input'
-//               type='text'
-//               label='Phone number'
-//               name='phone'
-//             />
-//             <button type='submit' disabled={!formik.isvalid}>
-//               Submit
-//             </button>
-//           </Form>
-//         )
-//       }}
-//     </Formik>
-//   )
-// }
-
-// export default Register
