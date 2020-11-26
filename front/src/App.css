@@ -73,7 +73,7 @@
   /* height: 85vh; */
   margin-top: 2vh;
   background-color: rgba(221, 218, 219, 0.678);
-  padding-bottom: 5vh;
+  padding-bottom: 1vh;
 }
 
 .cont2 {
@@ -87,12 +87,12 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-/* @media screen and (max-width: 800px) {
+@media screen and (max-width: 800px) {
   .cdash {
-    height: 100%;
+    height: auto;
   }
-  .cont {
+  /* .cont {
     height: 100%;
     background-color: rgba(221, 218, 219, 0.678);
-  }
-} */
+  } */
+}
