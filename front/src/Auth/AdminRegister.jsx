@@ -5,7 +5,7 @@ import { Button, Col, Container, Form, Image } from "react-bootstrap";
 import { NavLink, Redirect } from "react-router-dom";
 import * as Yup from "yup";
 
-function AdminRegister({ isAuth, setIsAuth }) {
+function AdminRegister({ isRegis, setIsRegis }) {
   const [newUser, setNewUser] = useState({});
 
   function changeHandler(e) {
@@ -62,7 +62,7 @@ function AdminRegister({ isAuth, setIsAuth }) {
         "http://localhost:8080/api/auth/register/ws",
         user
       );
-      setIsAuth(true);
+      setIsRegis(true);
     } catch (error) {
       console.log(error);
     }
