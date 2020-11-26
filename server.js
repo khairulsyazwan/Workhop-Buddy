@@ -1,27 +1,34 @@
-require("dotenv").config();
-const express = require("express");
-const server = express();
-const cors = require("cors");
-require("./lib/connection");
-const passport = require("passport");
+require('dotenv').config()
+const express = require('express')
+const server = express()
+const cors = require('cors')
+require('./lib/connection')
+const passport = require('passport')
+const bodyparser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
 //Middleware
-server.use(express.json());
-server.use(cors());
-
-server.use(passport.initialize());
+server.use(express.json())
+server.use(cors())
+server.use(bodyparser.urlencoded({ extended: false }))
+server.use(bodyparser.json())
+server.use(cookieParser())
+server.use(passport.initialize())
 
 //Routes
-server.use("/api/auth", require("./routes/auth.routes"));
-server.use("/api/customer", require("./routes/customer.routes"));
-server.use("/api/workshop", require("./routes/workshop.routes"));
-server.use("/api/appointment", require("./routes/appointment.routes"));
+server.use('/api/auth', require('./routes/auth.routes'))
+server.use('/api/customer', require('./routes/customer.routes'))
+server.use('/api/workshop', require('./routes/workshop.routes'))
+server.use('/api/appointment', require('./routes/appointment.routes'))
 
-server.get("*", (req, res) => {
-  res.status(404).json({ message: "This is not where you belong." });
-});
+server.get('/', function (req, res) {
+  res.status(200).send(`Welcome to login , sign-up workshopbuddy`)
+})
+server.get('*', (req, res) => {
+  res.status(404).json({ message: 'This is not where you belong.' })
+})
 
 // Listen
 server.listen(process.env.PORT, () =>
   console.log(`running on ${process.env.PORT}`)
-);
+)

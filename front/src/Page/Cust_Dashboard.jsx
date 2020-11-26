@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Link, Redirect, useParams } from "react-router-dom";
+import React, { useEffect } from 'react'
+import { Link, Redirect, useParams } from 'react-router-dom'
 import {
   Button,
   Card,
@@ -10,53 +10,54 @@ import {
   Nav,
   Navbar,
   Row,
-} from "react-bootstrap";
-import { useState } from "react";
-import axios from "axios";
-import moment from "moment";
+  NavDropdown,
+} from 'react-bootstrap'
+import { useState } from 'react'
+import axios from 'axios'
+import moment from 'moment'
 
 function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
-  const [current, setCurrent] = useState();
-  const [addVehicles, setAddVehicles] = useState();
-  const [appointment, setAppointment] = useState();
-  const [workshop, setWorkshop] = useState();
-  const [currentAppointments, setCurrentAppointments] = useState([]);
+  const [current, setCurrent] = useState()
+  const [addVehicles, setAddVehicles] = useState()
+  const [appointment, setAppointment] = useState()
+  const [workshop, setWorkshop] = useState()
+  const [currentAppointments, setCurrentAppointments] = useState([])
 
   //add vehicle modal controls
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   //add appointments modal controls
-  const [show2, setShow2] = useState(false);
-  const handleClose2 = () => setShow2(false);
-  const handleShow2 = () => setShow2(true);
+  const [show2, setShow2] = useState(false)
+  const handleClose2 = () => setShow2(false)
+  const handleShow2 = () => setShow2(true)
 
-  const { id } = useParams();
+  const { id } = useParams()
 
   useEffect(() => {
-    getCustomer();
-    getWorkshop();
-    getCustomerApp();
-  }, []);
+    getCustomer()
+    getWorkshop()
+    getCustomerApp()
+  }, [])
 
   async function getCustomer() {
     try {
-      let token = localStorage.getItem("token");
+      let token = localStorage.getItem('token')
       let resp = await axios.get(`http://localhost:8080/api/customer/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-      await setCurrent(resp.data.customer);
+      })
+      await setCurrent(resp.data.customer)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
   async function getCustomerApp() {
     try {
-      let token = localStorage.getItem("token");
+      let token = localStorage.getItem('token')
       let resp = await axios.get(
         `http://localhost:8080/api/customer/${id}/app`,
         {
@@ -64,41 +65,41 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
             Authorization: `Bearer ${token}`,
           },
         }
-      );
-      await setCurrentAppointments(resp.data.customer.appointments);
+      )
+      await setCurrentAppointments(resp.data.customer.appointments)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
   async function getWorkshop() {
     try {
-      let token = localStorage.getItem("token");
+      let token = localStorage.getItem('token')
       let resp = await axios.get(`http://localhost:8080/api/workshop`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-      await setWorkshop(resp.data.workshop);
+      })
+      await setWorkshop(resp.data.workshop)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
   function changeHandler(e) {
-    setAddVehicles({ ...addVehicles, [e.target.name]: e.target.value });
-    console.log(addVehicles);
+    setAddVehicles({ ...addVehicles, [e.target.name]: e.target.value })
+    console.log(addVehicles)
   }
 
   function changeHandler2(e) {
     setAppointment((content) => ({
       ...content,
       [e.target.name]: e.target.value,
-    }));
+    }))
   }
   async function addVehicle() {
     try {
-      let token = localStorage.getItem("token");
+      let token = localStorage.getItem('token')
       await axios.post(
         `http://localhost:8080/api/customer/newvehicle/${id}`,
         addVehicles,
@@ -107,33 +108,33 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
             Authorization: `Bearer ${token}`,
           },
         }
-      );
-      getCustomer();
-      handleClose();
+      )
+      getCustomer()
+      handleClose()
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
   if (!isAuth) {
-    return <Redirect to="/login" />;
+    return <Redirect to='/login' />
   }
 
   async function addAppointment() {
     try {
-      let { vehicle, date, work, others, workshop } = appointment;
-      let appoint;
-      if (work === "others") {
+      let { vehicle, date, work, others, workshop } = appointment
+      let appoint
+      if (work === 'others') {
         appoint = {
           vehicle,
           date,
           work: others,
           workshop,
-        };
+        }
       } else {
-        appoint = { vehicle, date, work, workshop };
+        appoint = { vehicle, date, work, workshop }
       }
-      let token = localStorage.getItem("token");
+      let token = localStorage.getItem('token')
       let resp = await axios.post(
         `http://localhost:8080/api/appointment/new/${id}`,
         appoint,
@@ -142,60 +143,65 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
             Authorization: `Bearer ${token}`,
           },
         }
-      );
-      getCustomer();
-      getCustomerApp();
-      handleClose2();
+      )
+      getCustomer()
+      getCustomerApp()
+      handleClose2()
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
-
+  function logout() {
+    localStorage.removeItem('token')
+    setIsAuth(false)
+  }
+  console.log(`you are ${logout}`)
   return (
     <div
-      className={current && current.vehicles.length > 2 ? "cdash" : "cdash2"}
+      className={current && current.vehicles.length > 2 ? 'cdash' : 'cdash2'}
     >
       <Navbar
         // bg="dark"
-        variant="dark"
-        className="d-flex justify-content-between navbar"
+        variant='dark'
+        className='d-flex justify-content-between navbar'
       >
         <Navbar.Brand>
-          WORKSHOP <i class="fas fa-tools"></i> BUDDY
+          WORKSHOP <i class='fas fa-tools'></i> BUDDY
         </Navbar.Brand>
-        <Nav className="">
-          <Nav.Link as={Link} to="/login">
+        <Nav className=''>
+          <Nav.Link as={Link} to='/login'>
             Home
           </Nav.Link>
-          <Nav.Link as={Link} to="/cust/workshops/">
+          <Nav.Link as={Link} to='/cust/workshops/'>
             Workshops
           </Nav.Link>
           <Nav.Link onClick={logout}>Logout</Nav.Link>
         </Nav>
+        <NavDropdown.Item onClick={logout}>Log Out</NavDropdown.Item>
       </Navbar>
-      <Container className="cont shadow">
+      <Container className='cont shadow'>
         <Row>
           <Col md={8}>
-            <div className="my-3">
+            <div className='my-3'>
               <h1>
                 Hello <strong>{current && current.firstname}</strong>!
               </h1>
             </div>
-            <div className="my-3">
+            <div className='my-3'>
               <h2>
-                <i class="far fa-calendar-check"></i> You have
+                <i class='far fa-calendar-check'></i> You have
                 {currentAppointments && currentAppointments.length === 0
                   ? ` no appointments scheduled.`
                   : ` ${currentAppointments.length} appointments scheduled.`}
               </h2>
             </div>
-            <div className="my-3">
+            <div className='my-3'>
               <Button
-                className="mx-1 my-1"
-                variant="secondary"
+                className='mx-1 my-1'
+                variant='secondary'
                 onClick={handleShow2}
               >
-                <i class="fas fa-plus"></i> Make an Appointment
+                <i class='fas fa-plus'></i> Make an Appointment
               </Button>
             </div>
 
@@ -205,19 +211,19 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
                   <Col lg={4} md={6}>
                     <Card
                       key={app._id}
-                      className="text-center mb-3 shadow card"
-                      text="dark"
-                      style={{ height: "18rem" }}
+                      className='text-center mb-3 shadow card'
+                      text='dark'
+                      style={{ height: '18rem' }}
                     >
                       <Card.Header>
-                        {moment(app.date).format("dddd, DD MMMM YYYY")}
+                        {moment(app.date).format('dddd, DD MMMM YYYY')}
                         <br />
                         {app.isAcknowledged ? (
-                          <span class="badge badge-pill badge-success">
+                          <span class='badge badge-pill badge-success'>
                             Acknowledged
                           </span>
                         ) : (
-                          <span class="badge badge-pill badge-danger">
+                          <span class='badge badge-pill badge-danger'>
                             Pending
                           </span>
                         )}
@@ -231,8 +237,8 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
                       </Card.Body>
                       <Card.Footer>
                         <Button
-                          className="btn-block"
-                          variant="info"
+                          className='btn-block'
+                          variant='info'
                           as={Link}
                           to={`/cust/appointment/${app._id}`}
                         >
@@ -247,23 +253,23 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
           </Col>
 
           <Col md={4}>
-            <div className="my-3 text-center">
+            <div className='my-3 text-center'>
               <h2>Vehicles</h2>
-              <Button className="" variant="secondary" onClick={handleShow}>
-                <i class="fas fa-plus"></i> Add New Vehicle
+              <Button className='' variant='secondary' onClick={handleShow}>
+                <i class='fas fa-plus'></i> Add New Vehicle
               </Button>
             </div>
-            <div className="my-3"></div>
+            <div className='my-3'></div>
 
-            <Container className="text-center">
+            <Container className='text-center'>
               <Row>
                 {current && current.vehicles.length === 0 && (
                   <Col lg={12}>
-                    <Card className="text-center rounded">
+                    <Card className='text-center rounded'>
                       <Card.Body>
                         <i
-                          style={{ fontSize: "3rem" }}
-                          class="fas fa-traffic-light mb-2"
+                          style={{ fontSize: '3rem' }}
+                          class='fas fa-traffic-light mb-2'
                         ></i>
                         <div>
                           Your vehicle will be shown here. <br />
@@ -277,26 +283,26 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
                 {current &&
                   current.vehicles.map((veh) => (
                     <Col md={12}>
-                      <Card key={veh._id} className="text-center mb-3 shadow">
+                      <Card key={veh._id} className='text-center mb-3 shadow'>
                         <Card.Body>
-                          {veh.type === "Car" ? (
+                          {veh.type === 'Car' ? (
                             <i
-                              style={{ fontSize: "2rem" }}
-                              class="fas fa-car-side"
+                              style={{ fontSize: '2rem' }}
+                              class='fas fa-car-side'
                             ></i>
                           ) : (
                             <i
-                              style={{ fontSize: "2rem" }}
-                              class="fas fa-motorcycle"
+                              style={{ fontSize: '2rem' }}
+                              class='fas fa-motorcycle'
                             ></i>
                           )}
                           <div>{veh.vehicleNumber}</div>
-                          <div>{veh.make + " " + veh.model}</div>
+                          <div>{veh.make + ' ' + veh.model}</div>
                         </Card.Body>
                         <Card.Footer>
                           <Button
-                            className="btn-block"
-                            variant="info"
+                            className='btn-block'
+                            variant='info'
                             as={Link}
                             to={`/cust/vehicle/${veh._id}`}
                           >
@@ -307,12 +313,12 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
                     </Col>
                   ))}
                 {/* ADD VEHICLE MODAL */}
-                <Container className="text-center"></Container>
+                <Container className='text-center'></Container>
 
                 <Modal
                   show={show}
                   onHide={handleClose}
-                  backdrop="static"
+                  backdrop='static'
                   keyboard={false}
                 >
                   <Modal.Header closeButton>
@@ -320,55 +326,55 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
                   </Modal.Header>
                   <Modal.Body>
                     <form>
-                      <div class="form-group">
-                        <label for="vehicleNumber">Vehicle Number</label>
+                      <div class='form-group'>
+                        <label for='vehicleNumber'>Vehicle Number</label>
                         <input
-                          type="text"
-                          class="form-control"
-                          placeholder="SBA6969K"
-                          name="vehicleNumber"
+                          type='text'
+                          class='form-control'
+                          placeholder='SBA6969K'
+                          name='vehicleNumber'
                           onChange={changeHandler}
                         />
                       </div>
                       <div>
                         <Form.Label>Vehicle Type</Form.Label>
                         <Form.Control
-                          name="type"
+                          name='type'
                           onChange={changeHandler}
-                          as="select"
+                          as='select'
                         >
                           <option>Select One..</option>
                           <option>Car</option>
                           <option>Motorcycle</option>
                         </Form.Control>
                       </div>
-                      <div class="form-group">
-                        <label for="vehicleMake">Vehicle Make</label>
+                      <div class='form-group'>
+                        <label for='vehicleMake'>Vehicle Make</label>
                         <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Honda"
-                          name="make"
+                          type='text'
+                          class='form-control'
+                          placeholder='Honda'
+                          name='make'
                           onChange={changeHandler}
                         />
                       </div>
-                      <div class="form-group">
-                        <label for="vehicleModel">Vehicle Model</label>
+                      <div class='form-group'>
+                        <label for='vehicleModel'>Vehicle Model</label>
                         <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Civic Type R"
-                          name="model"
+                          type='text'
+                          class='form-control'
+                          placeholder='Civic Type R'
+                          name='model'
                           onChange={changeHandler}
                         />
                       </div>
                     </form>
                   </Modal.Body>
                   <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant='secondary' onClick={handleClose}>
                       Close
                     </Button>
-                    <Button onClick={addVehicle} variant="primary">
+                    <Button onClick={addVehicle} variant='primary'>
                       Submit
                     </Button>
                   </Modal.Footer>
@@ -386,8 +392,8 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
                 <Form>
                   <Form.Label>Vehicle</Form.Label>
                   <Form.Control
-                    name="vehicle"
-                    as="select"
+                    name='vehicle'
+                    as='select'
                     onChange={changeHandler2}
                   >
                     <option>Select One</option>
@@ -400,39 +406,39 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
                   </Form.Control>
                   <Form.Label>Date</Form.Label>
                   <Form.Control
-                    type="date"
-                    name="date"
-                    placeholder="Appointment Date"
+                    type='date'
+                    name='date'
+                    placeholder='Appointment Date'
                     onChange={changeHandler2}
                   />
                   <Form.Label>Type</Form.Label>
                   <Form.Control
-                    name="work"
-                    as="select"
+                    name='work'
+                    as='select'
                     onChange={changeHandler2}
                   >
                     <option>Select One</option>
-                    <option value="annual servicing">Annual Servicing</option>
-                    <option value="engine/fluids">Engine/Fluids</option>
-                    <option value="brakes/suspension">Brakes/Suspension</option>
-                    <option value="tyres/rims">Tyres/Rims</option>
-                    <option value="body/paint">Body/Paint</option>
-                    <option value="others">Others</option>
+                    <option value='annual servicing'>Annual Servicing</option>
+                    <option value='engine/fluids'>Engine/Fluids</option>
+                    <option value='brakes/suspension'>Brakes/Suspension</option>
+                    <option value='tyres/rims'>Tyres/Rims</option>
+                    <option value='body/paint'>Body/Paint</option>
+                    <option value='others'>Others</option>
                   </Form.Control>
-                  {appointment && appointment.work === "others" && (
+                  {appointment && appointment.work === 'others' && (
                     <>
                       <Form.Label>If others, please specify:</Form.Label>
                       <Form.Control
-                        name="others"
-                        placeholder="Type"
+                        name='others'
+                        placeholder='Type'
                         onChange={changeHandler2}
                       />
                     </>
                   )}
                   <Form.Label>Workshop</Form.Label>
                   <Form.Control
-                    name="workshop"
-                    as="select"
+                    name='workshop'
+                    as='select'
                     onChange={changeHandler2}
                   >
                     <option>Select One</option>
@@ -444,7 +450,7 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
                 </Form>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose2}>
+                <Button variant='secondary' onClick={handleClose2}>
                   Close
                 </Button>
                 <Button onClick={addAppointment}>Submit</Button>
@@ -454,7 +460,7 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
         </Row>
       </Container>
     </div>
-  );
+  )
 }
 
-export default Cust_Dashboard;
+export default Cust_Dashboard
