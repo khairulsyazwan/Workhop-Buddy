@@ -29,7 +29,7 @@ function WsDashboard({ isAuth, logout, setIsAuth }) {
         // console.log(resp.data.workshop);
         setCurrent(resp.data.workshop);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     async function getWsApp() {
@@ -38,7 +38,7 @@ function WsDashboard({ isAuth, logout, setIsAuth }) {
         // console.log(resp.data.workshop);
         // setApps(resp.data.workshop.appointments.vehicle);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     getWs();
@@ -50,24 +50,32 @@ function WsDashboard({ isAuth, logout, setIsAuth }) {
   }
 
   return (
-    <div className="cdash2">
+    <div
+      className={
+        current && current.appointments.length > 3 ? "cdash3" : "cdash2"
+      }
+    >
       <Navbar
         // bg="dark"
         variant="dark"
         className="d-flex justify-content-between navbar"
+        expand="lg"
       >
         <Navbar.Brand>
           WORKSHOP <i class="fas fa-tools"></i> BUDDY
         </Navbar.Brand>
-        <Nav className="">
-          <Nav.Link as={Link} to="/ws/login">
-            Home
-          </Nav.Link>
-          <Nav.Link as={Link} to={`/ws/customers/${id}`}>
-            Customers
-          </Nav.Link>
-          <Nav.Link onClick={logout}>Logout</Nav.Link>
-        </Nav>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="">
+            <Nav.Link as={Link} to="/ws/login">
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to={`/ws/customers/${id}`}>
+              Customers
+            </Nav.Link>
+            <Nav.Link onClick={logout}>Logout</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
       <Container className="cont shadow">
         <Row>

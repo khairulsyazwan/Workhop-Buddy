@@ -57,7 +57,7 @@ function Login({ setIsAuth, isAuth }) {
       localStorage.setItem("id", resp.data.id);
       setIsAuth(true);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -73,7 +73,7 @@ function Login({ setIsAuth, isAuth }) {
   }
 
   return (
-    <div className="cdash2 d-flex align-items-center">
+    <div className="cdash d-flex align-items-center">
       <Container className="text-center">
         <Col md={4} className="mx-auto py-4 cont2 shadow">
           <h3>

@@ -20,7 +20,7 @@ function Cust_Appointment({ isAuth, logout, setIsAuth }) {
         // console.log(resp.data.appointment);
         setApp(resp.data.appointment);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     getApp();
@@ -31,26 +31,28 @@ function Cust_Appointment({ isAuth, logout, setIsAuth }) {
   }
 
   return (
-    <div className="cdash2">
+    <div className="cdash">
       <Navbar
         // bg="dark"
         variant="dark"
         className="d-flex justify-content-between navbar"
+        expand="lg"
       >
         <Navbar.Brand>
           WORKSHOP <i class="fas fa-tools"></i> BUDDY
         </Navbar.Brand>
-        <Nav className="">
-          <Nav.Link as={Link} to="/login">
-            Home
-          </Nav.Link>
-          <Nav.Link as={Link} to="/cust/workshops/">
-            Workshops
-          </Nav.Link>
-          <Nav.Link as={Link} to="/cust/workshops/">
-            Logout
-          </Nav.Link>
-        </Nav>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="">
+            <Nav.Link as={Link} to="/login">
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to="/cust/workshops/">
+              Workshops
+            </Nav.Link>
+            <Nav.Link onClick={logout}>Logout</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
 
       <Container className="cont">

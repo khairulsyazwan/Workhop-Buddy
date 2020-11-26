@@ -1,42 +1,26 @@
+import axios from "axios";
+import { Formik, useFormik } from "formik";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Button, Col, Container, Form, Image } from "react-bootstrap";
 import { NavLink, Redirect } from "react-router-dom";
-import axios from "axios";
 import * as Yup from "yup";
-import { useFormik } from "formik";
-function Register({ setIsRegis, isRegis }) {
-  const [newUser, setNewUser] = useState({});
 
-  // useEffect(() => {
-  //   console.log(isRegis)
-  // }, [])
+function AdminRegister({ isRegis, setIsRegis }) {
+  const [newUser, setNewUser] = useState({});
 
   function changeHandler(e) {
     setNewUser((user) => ({ ...user, [e.target.name]: e.target.value }));
   }
 
   let Schema = Yup.object().shape({
-    firstname: Yup.string()
-      .required("Required")
-      .min(2, "Too Short!")
-      .max(70, "Too Long!"),
-    lastname: Yup.string()
-      .min(2, "Too Short!")
-      .max(70, "Too Long!")
-      .required("Required"),
-
-    username: Yup.string()
-      .min(2, "Too Short!")
-      .max(70, "Too Long!")
-      .required("Required"),
-
     email: Yup.string().email("Invalid email").required("Required"),
-
     password: Yup.string()
-      .label("Password")
-      .required("Required")
-      .min(2, "Seems a bit short...")
-      .max(10, "We prefer insecure system, try a shorter password."),
+      .min(5, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    firstname: Yup.string().min(5, "Too Short!").required("Required"),
+    lastname: Yup.string().min(5, "Too Short!").required("Required"),
   });
 
   const {
@@ -48,32 +32,33 @@ function Register({ setIsRegis, isRegis }) {
     handleBlur,
   } = useFormik({
     initialValues: {
-      firstname: "",
-      lastname: "",
-      username: "",
       email: "",
       password: "",
+      firstname: "",
+      lastname: "",
     },
     validationSchema: Schema,
     onSubmit: (values) => {
+      // alert(JSON.stringify(values, null, 2));
+      // console.log(values);
       register(values);
     },
   });
+
   async function register(user) {
     try {
-      let resp = await axios.post("/api/auth/register", newUser);
+      let resp = await axios.post("/api/auth/register", user);
       setIsRegis(true);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
   if (isRegis) {
-    return <Redirect to={"/"} />;
+    return <Redirect to={"/login"} />;
   }
-
   return (
-    <div className="cdash2 d-flex align-items-center">
+    <div className="cdash d-flex align-items-center">
       <Container className="text-center">
         <Col md={4} className="mx-auto py-4 cont2 shadow">
           <h3>
@@ -81,12 +66,40 @@ function Register({ setIsRegis, isRegis }) {
               WORKSHOP <i class="fas fa-tools"></i> BUDDY
             </strong>
           </h3>
+          <div className="my-1">REGISTER</div>
           <Form onSubmit={handleSubmit}>
             <Form.Row className="mb-3">
               <Form.Control
-                placeholder="First Name"
-                values={values.firstname}
+                placeholder="Email"
                 onChange={handleChange}
+                name="email"
+                value={values.email}
+                className={touched.email && errors.email ? `is-invalid` : null}
+              />
+              {touched.email && errors.email ? (
+                <div className="invalid-feedback">{errors.email}</div>
+              ) : null}
+            </Form.Row>
+            <Form.Row className="mb-3">
+              <Form.Control
+                onChange={handleChange}
+                placeholder="Password"
+                value={values.password}
+                name="password"
+                type="password"
+                className={
+                  touched.password && errors.email ? `is-invalid` : null
+                }
+              />
+              {touched.password && errors.password ? (
+                <div className="invalid-feedback">{errors.password}</div>
+              ) : null}
+            </Form.Row>
+            <Form.Row className="mb-3">
+              <Form.Control
+                placeholder="First Name"
+                onChange={handleChange}
+                value={values.firstname}
                 name="firstname"
                 className={
                   touched.firstname && errors.firstname ? `is-invalid` : null
@@ -99,8 +112,8 @@ function Register({ setIsRegis, isRegis }) {
             <Form.Row className="mb-3">
               <Form.Control
                 placeholder="Last Name"
-                values={values.lastname}
                 onChange={handleChange}
+                value={values.lastname}
                 name="lastname"
                 className={
                   touched.lastname && errors.lastname ? `is-invalid` : null
@@ -110,47 +123,7 @@ function Register({ setIsRegis, isRegis }) {
                 <div className="invalid-feedback">{errors.lastname}</div>
               ) : null}
             </Form.Row>
-            <Form.Row className="mb-3">
-              <Form.Control
-                placeholder="Username"
-                values={values.username}
-                onChange={handleChange}
-                name="username"
-                className={
-                  touched.username && errors.username ? `is-invalid` : null
-                }
-              />
-              {touched.username && errors.username ? (
-                <div className="invalid-feedback">{errors.username}</div>
-              ) : null}
-            </Form.Row>
-            <Form.Row className="mb-3">
-              <Form.Control
-                placeholder="email@email.com"
-                values={values.email}
-                onChange={handleChange}
-                name="email"
-                className={touched.email && errors.email ? `is-invalid` : null}
-              />
-              {touched.email && errors.email ? (
-                <div className="invalid-feedback">{errors.email}</div>
-              ) : null}
-            </Form.Row>
-            <Form.Row className="mb-3">
-              <Form.Control
-                onChange={handleChange}
-                placeholder="Password"
-                values={values.password}
-                name="password"
-                type="password"
-                className={
-                  touched.password && errors.password ? `is-invalid` : null
-                }
-              />
-              {touched.password && errors.password ? (
-                <div className="invalid-feedback">{errors.password}</div>
-              ) : null}
-            </Form.Row>
+
             <Form.Row className="mb-3">
               <Button type="submit" block>
                 Register
@@ -164,4 +137,4 @@ function Register({ setIsRegis, isRegis }) {
   );
 }
 
-export default Register;
+export default AdminRegister;

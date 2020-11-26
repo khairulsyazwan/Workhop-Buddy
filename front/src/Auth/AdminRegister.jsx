@@ -12,17 +12,6 @@ function AdminRegister({ isRegis, setIsRegis }) {
   function changeHandler(e) {
     setNewUser((user) => ({ ...user, [e.target.name]: e.target.value }));
   }
-  const SignupSchema = Yup.object().shape({
-    firstName: Yup.string()
-      .min(2, "Too Short!")
-      .max(50, "Too Long!")
-      .required("Required"),
-    lastName: Yup.string()
-      .min(2, "Too Short!")
-      .max(50, "Too Long!")
-      .required("Required"),
-    email: Yup.string().email("Invalid email").required("Required"),
-  });
 
   let Schema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
@@ -34,6 +23,7 @@ function AdminRegister({ isRegis, setIsRegis }) {
     phone: Yup.number().required("Required"),
     address: Yup.string().min(8, "Too Short!").required("Required"),
   });
+
   const {
     handleSubmit,
     handleChange,
@@ -62,7 +52,7 @@ function AdminRegister({ isRegis, setIsRegis }) {
       let resp = await axios.post("/api/auth/register/ws", user);
       setIsRegis(true);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -70,7 +60,7 @@ function AdminRegister({ isRegis, setIsRegis }) {
     return <Redirect to={"/ws/login"} />;
   }
   return (
-    <div className="cdash2 d-flex align-items-center">
+    <div className="cdash d-flex align-items-center">
       <Container className="text-center">
         <Col md={4} className="mx-auto py-4 cont2 shadow">
           <h3>

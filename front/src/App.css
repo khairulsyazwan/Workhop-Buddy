@@ -67,13 +67,14 @@
   background-repeat: repeat-y;
   background-size: cover;
   background-position: center;
+  height: auto;
 }
 
 .cont {
   /* height: 85vh; */
   margin-top: 2vh;
   background-color: rgba(221, 218, 219, 0.678);
-  padding-bottom: 5vh;
+  padding-bottom: 1vh;
 }
 
 .cont2 {
@@ -87,12 +88,8 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-@media screen and (max-width: 800px) {
-  .cdash {
-    height: 100%;
-  }
-  .cont {
-    height: 100%;
-    background-color: rgba(221, 218, 219, 0.678);
+@media screen and (max-width: 768px) {
+  .cdash2 {
+    height: auto;
   }
 }

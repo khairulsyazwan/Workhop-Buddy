@@ -29,7 +29,7 @@ function WsCustomers({ isAuth, logout, setIsAuth }) {
         // console.log(resp.data.workshop.customers);
         setCustomers(resp.data.workshop.customers);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     getWs();
@@ -40,24 +40,28 @@ function WsCustomers({ isAuth, logout, setIsAuth }) {
   }
 
   return (
-    <div className={customers && customers.length > 1 ? "cdash3" : "cdash2"}>
+    <div className={customers && customers.length > 0 ? "cdash3" : "cdash2"}>
       <Navbar
         // bg="dark"
         variant="dark"
         className="d-flex justify-content-between navbar"
+        expand="lg"
       >
         <Navbar.Brand>
           WORKSHOP <i class="fas fa-tools"></i> BUDDY
         </Navbar.Brand>
-        <Nav className="">
-          <Nav.Link as={Link} to="/ws/login">
-            Home
-          </Nav.Link>
-          <Nav.Link as={Link} to={`/ws/customers/${id}`}>
-            Customers
-          </Nav.Link>
-          <Nav.Link onClick={logout}>Logout</Nav.Link>
-        </Nav>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="">
+            <Nav.Link as={Link} to="/ws/login">
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to={`/ws/customers/${id}`}>
+              Customers
+            </Nav.Link>
+            <Nav.Link onClick={logout}>Logout</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
       <Container className="cont">
         <Row>
