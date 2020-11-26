@@ -50,9 +50,7 @@ function Cust_Appointment({ isAuth, logout, setIsAuth }) {
             <Nav.Link as={Link} to="/cust/workshops/">
               Workshops
             </Nav.Link>
-            <Nav.Link as={Link} to="/cust/workshops/">
-              Logout
-            </Nav.Link>
+            <Nav.Link onClick={logout}>Logout</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

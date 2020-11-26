@@ -50,7 +50,7 @@ function WsDashboard({ isAuth, logout, setIsAuth }) {
   }
 
   return (
-    <div className="cdash">
+    <div className="cdash2">
       <Navbar
         // bg="dark"
         variant="dark"

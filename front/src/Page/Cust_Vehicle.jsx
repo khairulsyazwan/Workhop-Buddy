@@ -50,7 +50,7 @@ function Cust_Vehicle({ isAuth, logout, setIsAuth }) {
   }
 
   return (
-    <div className="cdash">
+    <div className={records && records.length > 2 ? "cdash3" : "cdash2"}>
       <Navbar
         // bg="dark"
         variant="dark"
@@ -69,9 +69,7 @@ function Cust_Vehicle({ isAuth, logout, setIsAuth }) {
             <Nav.Link as={Link} to="/cust/workshops/">
               Workshops
             </Nav.Link>
-            <Nav.Link as={Link} to="/cust/workshops/">
-              Logout
-            </Nav.Link>
+            <Nav.Link onClick={logout}>Logout</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

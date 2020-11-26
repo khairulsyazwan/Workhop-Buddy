@@ -146,7 +146,9 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
   }
   // console.log(`you are ${logout}`);
   return (
-    <div className="cdash">
+    <div
+      className={current && current.vehicles.length > 3 ? "cdash3" : "cdash2"}
+    >
       <Navbar
         // bg="dark"
         variant="dark"
