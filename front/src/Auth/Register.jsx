@@ -3,9 +3,13 @@ import { Button, Col, Container, Form, Image } from 'react-bootstrap'
 import { NavLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import * as Yup from 'yup'
-import { Formik, Field, ErrorMessage, useFormik } from 'formik'
+import { useFormik } from 'formik'
 function Register({ setIsRegis, isRegis }) {
   const [newUser, setNewUser] = useState({})
+
+  useEffect(() => {
+    console.log(isRegis)
+  }, [])
 
   function changeHandler(e) {
     setNewUser((user) => ({ ...user, [e.target.name]: e.target.value }))
