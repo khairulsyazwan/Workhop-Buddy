@@ -96,7 +96,7 @@ router.put(
   passport.authenticate("ws-jwt", { session: false }),
   async (req, res) => {
     try {
-      console.log(req.header);
+      // console.log(req.header);
       let appointment = await Appointment.findByIdAndUpdate(req.params.id, {
         isAcknowledged: true,
       });

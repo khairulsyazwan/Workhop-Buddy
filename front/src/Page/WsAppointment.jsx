@@ -21,24 +21,21 @@ function WsAppointment({ isAuth, logout, setIsAuth }) {
 
   async function getApp() {
     let token = localStorage.getItem("token");
-    let resp = await axios.get(
-      `http://localhost:8080/api/workshop/appointment/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    console.log(resp.data.appointment);
+    let resp = await axios.get(`/api/workshop/appointment/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // console.log(resp.data.appointment);
     setapp(resp.data.appointment);
   }
 
   async function confirmApp() {
     let token = localStorage.getItem("token");
-    console.log(token);
+    // console.log(token);
     try {
       await axios.put(
-        `http://localhost:8080/api/workshop/appointment/${id}`,
+        `/api/workshop/appointment/${id}`,
         {},
         {
           headers: {

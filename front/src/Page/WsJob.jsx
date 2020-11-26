@@ -27,14 +27,11 @@ function WsJob({ isAuth, logout, setIsAuth }) {
   async function getApp() {
     try {
       let token = localStorage.getItem("token");
-      let resp = await axios.get(
-        `http://localhost:8080/api/workshop/appointment/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      let resp = await axios.get(`/api/workshop/appointment/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       //   console.log(resp.data.appointment);
       setapp(resp.data.appointment);
     } catch (error) {
@@ -54,7 +51,7 @@ function WsJob({ isAuth, logout, setIsAuth }) {
       [e.target.name]: e.target.value,
       workshop: app.workshop,
     });
-    console.log(job);
+    // console.log(job);
   }
 
   // items in list
@@ -78,24 +75,20 @@ function WsJob({ isAuth, logout, setIsAuth }) {
   async function completeJob() {
     try {
       let token = localStorage.getItem("token");
-      let resp = await axios.post(
-        `http://localhost:8080/api/workshop/complete/${id}`,
-        job,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(resp);
+      let resp = await axios.post(`/api/workshop/complete/${id}`, job, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log(resp);
 
       setredirect(true);
     } catch (error) {
       console.log(error);
     }
     setJob({ ...job, item: newItems });
-    console.log(job);
-    console.log(newItems);
+    // console.log(job);
+    // console.log(newItems);
   }
 
   if (redirect) {

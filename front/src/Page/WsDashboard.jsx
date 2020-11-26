@@ -21,12 +21,12 @@ function WsDashboard({ isAuth, logout, setIsAuth }) {
     async function getWs() {
       try {
         let token = localStorage.getItem("token");
-        let resp = await axios.get(`http://localhost:8080/api/workshop/${id}`, {
+        let resp = await axios.get(`/api/workshop/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(resp.data.workshop);
+        // console.log(resp.data.workshop);
         setCurrent(resp.data.workshop);
       } catch (error) {
         console.log(error);
@@ -34,10 +34,8 @@ function WsDashboard({ isAuth, logout, setIsAuth }) {
     }
     async function getWsApp() {
       try {
-        let resp = await axios.get(
-          `http://localhost:8080/api/workshop/${id}/app`
-        );
-        console.log(resp.data.workshop);
+        let resp = await axios.get(`/api/workshop/${id}/app`);
+        // console.log(resp.data.workshop);
         // setApps(resp.data.workshop.appointments.vehicle);
       } catch (error) {
         console.log(error);

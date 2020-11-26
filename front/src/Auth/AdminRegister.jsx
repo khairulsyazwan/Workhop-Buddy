@@ -9,9 +9,6 @@ import * as Yup from "yup";
 function AdminRegister({ isRegis, setIsRegis }) {
   const [newUser, setNewUser] = useState({});
 
-  useEffect(() => {
-    console.log(isRegis);
-  }, []);
   function changeHandler(e) {
     setNewUser((user) => ({ ...user, [e.target.name]: e.target.value }));
   }
@@ -62,10 +59,7 @@ function AdminRegister({ isRegis, setIsRegis }) {
 
   async function register(user) {
     try {
-      let resp = await axios.post(
-        "http://localhost:8080/api/auth/register/ws",
-        user
-      );
+      let resp = await axios.post("/api/auth/register/ws", user);
       setIsRegis(true);
     } catch (error) {
       console.log(error);

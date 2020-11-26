@@ -112,7 +112,7 @@ router.get(
   (req, res) => {
     try {
       // res.send("ok your in");
-      console.log(req.user);
+      // console.log(req.user);
       res.status(200).json({ message: "wooooo!", user: req.user });
     } catch (error) {}
   }

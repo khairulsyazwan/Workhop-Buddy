@@ -21,15 +21,12 @@ function WsCustomers({ isAuth, logout, setIsAuth }) {
     async function getWs() {
       try {
         let token = localStorage.getItem("token");
-        let resp = await axios.get(
-          `http://localhost:8080/api/workshop/${id}/cust`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(resp.data.workshop.customers);
+        let resp = await axios.get(`/api/workshop/${id}/cust`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        // console.log(resp.data.workshop.customers);
         setCustomers(resp.data.workshop.customers);
       } catch (error) {
         console.log(error);
@@ -43,7 +40,7 @@ function WsCustomers({ isAuth, logout, setIsAuth }) {
   }
 
   return (
-    <div className="cdash2">
+    <div className={customers && customers.length > 1 ? "cdash3" : "cdash2"}>
       <Navbar
         // bg="dark"
         variant="dark"
