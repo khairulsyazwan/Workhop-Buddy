@@ -13,10 +13,9 @@ function Register({ setIsRegis, isRegis }) {
 
   let Schema = Yup.object().shape({
     firstname: Yup.string()
+      .required('Required')
       .min(2, 'Too Short!')
-      .max(70, 'Too Long!')
-      .required('Required'),
-
+      .max(70, 'Too Long!'),
     lastname: Yup.string()
       .min(2, 'Too Short!')
       .max(70, 'Too Long!')
@@ -28,21 +27,12 @@ function Register({ setIsRegis, isRegis }) {
       .required('Required'),
 
     email: Yup.string().email('Invalid email').required('Required'),
+
     password: Yup.string()
       .label('Password')
-      .required()
+      .required('Required')
       .min(2, 'Seems a bit short...')
       .max(10, 'We prefer insecure system, try a shorter password.'),
-    confirmPassword: Yup.string()
-      .required()
-      .label('Confirm password')
-      .test(
-        'passwords-match',
-        'Passwords must match ya fool',
-        function (value) {
-          return this.parent.password === value
-        }
-      ),
   })
 
   const {
@@ -60,7 +50,7 @@ function Register({ setIsRegis, isRegis }) {
       email: '',
       password: '',
     },
-    validationScheme: Schema,
+    validationSchema: Schema,
     onSubmit: (values) => {
       register(values)
     },
@@ -94,22 +84,22 @@ function Register({ setIsRegis, isRegis }) {
             <Form.Row className='mb-3'>
               <Form.Control
                 placeholder='First Name'
-                value={values.firstname}
-                onChange={changeHandler}
+                values={values.firstname}
+                onChange={handleChange}
                 name='firstname'
                 className={
                   touched.firstname && errors.firstname ? `is-invalid` : null
                 }
               />
               {touched.firstname && errors.firstname ? (
-                <div className='invalid-feedback'>{errors.fistname}</div>
+                <div className='invalid-feedback'>{errors.firstname}</div>
               ) : null}
             </Form.Row>
             <Form.Row className='mb-3'>
               <Form.Control
                 placeholder='Last Name'
-                value={values.lastname}
-                onChange={changeHandler}
+                values={values.lastname}
+                onChange={handleChange}
                 name='lastname'
                 className={
                   touched.lastname && errors.lastname ? `is-invalid` : null
@@ -122,8 +112,8 @@ function Register({ setIsRegis, isRegis }) {
             <Form.Row className='mb-3'>
               <Form.Control
                 placeholder='Username'
-                value={values.username}
-                onChange={changeHandler}
+                values={values.username}
+                onChange={handleChange}
                 name='username'
                 className={
                   touched.username && errors.username ? `is-invalid` : null
@@ -136,8 +126,8 @@ function Register({ setIsRegis, isRegis }) {
             <Form.Row className='mb-3'>
               <Form.Control
                 placeholder='email@email.com'
-                value={values.email}
-                onChange={changeHandler}
+                values={values.email}
+                onChange={handleChange}
                 name='email'
                 className={touched.email && errors.email ? `is-invalid` : null}
               />
@@ -147,21 +137,21 @@ function Register({ setIsRegis, isRegis }) {
             </Form.Row>
             <Form.Row className='mb-3'>
               <Form.Control
-                onChange={changeHandler}
+                onChange={handleChange}
                 placeholder='Password'
-                value={values.password}
+                values={values.password}
                 name='password'
                 type='password'
                 className={
                   touched.password && errors.password ? `is-invalid` : null
                 }
               />
-              {touched.email && errors.email ? (
-                <div className='invalid-feedback'>{errors.email}</div>
+              {touched.password && errors.password ? (
+                <div className='invalid-feedback'>{errors.password}</div>
               ) : null}
             </Form.Row>
             <Form.Row className='mb-3'>
-              <Button onClick={register} block>
+              <Button type='submit' block>
                 Register
               </Button>
             </Form.Row>
