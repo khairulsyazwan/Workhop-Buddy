@@ -20,7 +20,7 @@ function AdminRegister({ isRegis, setIsRegis }) {
       .max(50, "Too Long!")
       .required("Required"),
     firstname: Yup.string().min(5, "Too Short!").required("Required"),
-    lastname: Yup.string().min(5, "Too Short!").required("Required"),
+    lastname: Yup.string().min(2, "Too Short!").required("Required"),
   });
 
   const {
