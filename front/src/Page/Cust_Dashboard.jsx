@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 import {
   Button,
   Card,
@@ -13,8 +13,9 @@ import {
 } from "react-bootstrap";
 import { useState } from "react";
 import axios from "axios";
+import moment from "moment";
 
-function Cust_Dashboard() {
+function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
   const [current, setCurrent] = useState();
   const [addVehicles, setAddVehicles] = useState();
   const [appointment, setAppointment] = useState();
@@ -57,11 +58,13 @@ function Cust_Dashboard() {
     try {
       let token = localStorage.getItem("token");
       let resp = await axios.get(
-        `http://localhost:8080/api/customer/${id}/app`, {
+        `http://localhost:8080/api/customer/${id}/app`,
+        {
           headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       await setCurrentAppointments(resp.data.customer.appointments);
     } catch (error) {
       console.log(error);
@@ -73,9 +76,9 @@ function Cust_Dashboard() {
       let token = localStorage.getItem("token");
       let resp = await axios.get(`http://localhost:8080/api/workshop`, {
         headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+          Authorization: `Bearer ${token}`,
+        },
+      });
       await setWorkshop(resp.data.workshop);
     } catch (error) {
       console.log(error);
@@ -98,16 +101,22 @@ function Cust_Dashboard() {
       let token = localStorage.getItem("token");
       await axios.post(
         `http://localhost:8080/api/customer/newvehicle/${id}`,
-        addVehicles, {
+        addVehicles,
+        {
           headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       getCustomer();
       handleClose();
     } catch (error) {
       console.log(error);
     }
+  }
+
+  if (!isAuth) {
+    return <Redirect to="/login" />;
   }
 
   async function addAppointment() {
@@ -127,11 +136,12 @@ function Cust_Dashboard() {
       let token = localStorage.getItem("token");
       let resp = await axios.post(
         `http://localhost:8080/api/appointment/new/${id}`,
-        appoint, {
+        appoint,
+        {
           headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       getCustomer();
       getCustomerApp();
@@ -142,69 +152,87 @@ function Cust_Dashboard() {
   }
 
   return (
-    <>
-      <Navbar bg="primary" variant="light">
-        <Navbar.Brand>Workshop Buddy</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link as={Link} to="/">
+    <div className="cdash">
+      <Navbar
+        // bg="dark"
+        variant="dark"
+        className="d-flex justify-content-between navbar"
+      >
+        <Navbar.Brand>
+          WORKSHOP <i class="fas fa-tools"></i> BUDDY
+        </Navbar.Brand>
+        <Nav className="">
+          <Nav.Link as={Link} to="/login">
             Home
           </Nav.Link>
           <Nav.Link as={Link} to="/cust/workshops/">
             Workshops
           </Nav.Link>
+          <Nav.Link onClick={logout}>Logout</Nav.Link>
         </Nav>
       </Navbar>
-      <Container className="my-3">
+      <Container className="cont shadow">
         <Row>
           <Col md={8}>
-            <div className="mb-3">
-              <h1>Welcome, {current && current.firstname}!</h1>
+            <div className="my-3">
+              <h1>
+                Hello <strong>{current && current.firstname}</strong>!
+              </h1>
+            </div>
+            <div className="my-3">
+              <h2>
+                <i class="far fa-calendar-check"></i> You have
+                {currentAppointments && currentAppointments.length === 0
+                  ? ` no appointments scheduled.`
+                  : ` ${currentAppointments.length} appointments scheduled.`}
+              </h2>
+            </div>
+            <div className="my-3">
+              <Button
+                className="mx-1 my-1"
+                variant="secondary"
+                onClick={handleShow2}
+              >
+                <i class="fas fa-plus"></i> Make an Appointment
+              </Button>
             </div>
 
             <Row>
-              {current && current.vehicles.length === 0 && (
-                <Col md={3}>
-                  <Card className="text-center rounded">
-                    <Card.Body>
-                      <i
-                        style={{ fontSize: "3rem" }}
-                        class="fas fa-traffic-light mb-2"
-                      ></i>
-                      <div>
-                        Your vehicle will be shown here. <br />
-                        Start by adding a new vehicle!
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              )}
-
-              {current &&
-                current.vehicles.map((veh) => (
-                  <Col md={4} sm={6}>
-                    <Card key={veh._id} className="text-center mb-3 shadow">
-                      <Card.Body>
-                        {veh.type === "Car" ? (
-                          <i
-                            style={{ fontSize: "3rem" }}
-                            class="fas fa-car-side"
-                          ></i>
+              {currentAppointments &&
+                currentAppointments.map((app) => (
+                  <Col lg={4} md={6}>
+                    <Card
+                      key={app._id}
+                      className="text-center mb-3 shadow card"
+                      text="dark"
+                      style={{ height: "18rem" }}
+                    >
+                      <Card.Header>
+                        {moment(app.date).format("dddd, DD MMMM YYYY")}
+                        <br />
+                        {app.isAcknowledged ? (
+                          <span class="badge badge-pill badge-success">
+                            Acknowledged
+                          </span>
                         ) : (
-                          <i
-                            style={{ fontSize: "3rem" }}
-                            class="fas fa-motorcycle"
-                          ></i>
+                          <span class="badge badge-pill badge-danger">
+                            Pending
+                          </span>
                         )}
-                        <div>{veh.vehicleNumber}</div>
-                        <div>{veh.make}</div>
-                        <div>{veh.model}</div>
+                      </Card.Header>
+                      <Card.Body>
+                        <div>{app.vehicle.vehicleNumber}</div>
+                        <div>{app.work}</div>
+                        <div>
+                          <strong>{app.workshop.name}</strong>
+                        </div>
                       </Card.Body>
                       <Card.Footer>
                         <Button
                           className="btn-block"
-                          variant="outline-info"
+                          variant="info"
                           as={Link}
-                          to={`/cust/vehicle/${veh._id}`}
+                          to={`/cust/appointment/${app._id}`}
                         >
                           View
                         </Button>
@@ -213,129 +241,62 @@ function Cust_Dashboard() {
                   </Col>
                 ))}
             </Row>
-
-            {/* ADD VEHICLE MODAL */}
-            <Container className="text-center">
-              <Button
-                className="mt-4 btn-block"
-                variant="primary"
-                onClick={handleShow}
-              >
-                Add New Vehicle
-              </Button>
-            </Container>
-
-            <Modal
-              show={show}
-              onHide={handleClose}
-              backdrop="static"
-              keyboard={false}
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>Add New Vehicle</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <form>
-                  <div class="form-group">
-                    <label for="vehicleNumber">Vehicle Number</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="SBA6969K"
-                      name="vehicleNumber"
-                      onChange={changeHandler}
-                    />
-                  </div>
-                  <div>
-                    <Form.Label>Vehicle Type</Form.Label>
-                    <Form.Control
-                      name="type"
-                      onChange={changeHandler}
-                      as="select"
-                    >
-                      <option>Select One..</option>
-                      <option>Car</option>
-                      <option>Motorcycle</option>
-                    </Form.Control>
-                  </div>
-                  <div class="form-group">
-                    <label for="vehicleMake">Vehicle Make</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Honda"
-                      name="make"
-                      onChange={changeHandler}
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="vehicleModel">Vehicle Model</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Civic Type R"
-                      name="model"
-                      onChange={changeHandler}
-                    />
-                  </div>
-                </form>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  Close
-                </Button>
-                <Button onClick={addVehicle} variant="primary">
-                  Submit
-                </Button>
-              </Modal.Footer>
-            </Modal>
+            <Row></Row>
           </Col>
 
-          <Col md={4} className="text-center border-left">
-            <div className="d-flex justify-content-center mb-3">
-              <h2>Appointments</h2>
-              <Button
-                className="my-1 mx-2 rounded-circle"
-                variant="primary"
-                onClick={handleShow2}
-              >
-                +
+          <Col md={4}>
+            <div className="my-3 text-center">
+              <h2>Vehicles</h2>
+              <Button className="" variant="secondary" onClick={handleShow}>
+                <i class="fas fa-plus"></i> Add New Vehicle
               </Button>
             </div>
+            <div className="my-3"></div>
 
             <Container className="text-center">
               <Row>
-                {currentAppointments &&
-                  currentAppointments.map((app) => (
-                    <Col md={6}>
-                      <Card
-                        key={app._id}
-                        className="border-primary text-center mb-3 shadow"
-                      >
-                        <Card.Header>
-                          {app.date}
-                          <br />
-                          {app.isAcknowledged ? (
-                            <span class="badge badge-pill badge-success">
-                              Acknowledged
-                            </span>
-                          ) : (
-                            <span class="badge badge-pill badge-danger">
-                              Pending
-                            </span>
-                          )}
-                        </Card.Header>
+                {current && current.vehicles.length === 0 && (
+                  <Col lg={12}>
+                    <Card className="text-center rounded">
+                      <Card.Body>
+                        <i
+                          style={{ fontSize: "3rem" }}
+                          class="fas fa-traffic-light mb-2"
+                        ></i>
+                        <div>
+                          Your vehicle will be shown here. <br />
+                          Start by adding a new vehicle!
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                )}
+
+                {current &&
+                  current.vehicles.map((veh) => (
+                    <Col md={12}>
+                      <Card key={veh._id} className="text-center mb-3 shadow">
                         <Card.Body>
-                          <div>{app.vehicle.vehicleNumber}</div>
-                          <div>{app.work}</div>
-                          <div>{app.workshop.name}</div>
+                          {veh.type === "Car" ? (
+                            <i
+                              style={{ fontSize: "2rem" }}
+                              class="fas fa-car-side"
+                            ></i>
+                          ) : (
+                            <i
+                              style={{ fontSize: "2rem" }}
+                              class="fas fa-motorcycle"
+                            ></i>
+                          )}
+                          <div>{veh.vehicleNumber}</div>
+                          <div>{veh.make + " " + veh.model}</div>
                         </Card.Body>
                         <Card.Footer>
                           <Button
                             className="btn-block"
-                            variant="outline-primary"
+                            variant="info"
                             as={Link}
-                            to={`/cust/appointment/${app._id}`}
+                            to={`/cust/vehicle/${veh._id}`}
                           >
                             View
                           </Button>
@@ -343,6 +304,73 @@ function Cust_Dashboard() {
                       </Card>
                     </Col>
                   ))}
+                {/* ADD VEHICLE MODAL */}
+                <Container className="text-center"></Container>
+
+                <Modal
+                  show={show}
+                  onHide={handleClose}
+                  backdrop="static"
+                  keyboard={false}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title>Add New Vehicle</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <form>
+                      <div class="form-group">
+                        <label for="vehicleNumber">Vehicle Number</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="SBA6969K"
+                          name="vehicleNumber"
+                          onChange={changeHandler}
+                        />
+                      </div>
+                      <div>
+                        <Form.Label>Vehicle Type</Form.Label>
+                        <Form.Control
+                          name="type"
+                          onChange={changeHandler}
+                          as="select"
+                        >
+                          <option>Select One..</option>
+                          <option>Car</option>
+                          <option>Motorcycle</option>
+                        </Form.Control>
+                      </div>
+                      <div class="form-group">
+                        <label for="vehicleMake">Vehicle Make</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Honda"
+                          name="make"
+                          onChange={changeHandler}
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="vehicleModel">Vehicle Model</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Civic Type R"
+                          name="model"
+                          onChange={changeHandler}
+                        />
+                      </div>
+                    </form>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                      Close
+                    </Button>
+                    <Button onClick={addVehicle} variant="primary">
+                      Submit
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               </Row>
             </Container>
 
@@ -423,7 +451,7 @@ function Cust_Dashboard() {
           </Col>
         </Row>
       </Container>
-    </>
+    </div>
   );
 }
 

@@ -44,29 +44,45 @@ function App() {
     <Router>
       <Switch>
         <Route path="/dashboard/cust/:id">
-          <Cust_Dashboard />
+          <Cust_Dashboard
+            logout={logout}
+            setIsAuth={setIsAuth}
+            isAuth={isAuth}
+          />
         </Route>
         <Route path="/cust/vehicle/:id">
-          <Cust_Vehicle />
+          <Cust_Vehicle logout={logout} setIsAuth={setIsAuth} isAuth={isAuth} />
         </Route>
         <Route path="/cust/appointment/:id">
-          <Cust_Appointment />
+          <Cust_Appointment
+            logout={logout}
+            setIsAuth={setIsAuth}
+            isAuth={isAuth}
+          />
         </Route>
         <Route path="/cust/workshops/">
-          <Cust_Workshops />
+          <Cust_Workshops
+            logout={logout}
+            setIsAuth={setIsAuth}
+            isAuth={isAuth}
+          />
         </Route>
         <Route path="/dashboard/ws/:id">
-          <WsDashboard />
+          <WsDashboard logout={logout} setIsAuth={setIsAuth} isAuth={isAuth} />
         </Route>
         <Route path="/ws/appointment/:id">
-          <WsAppointment />
+          <WsAppointment
+            logout={logout}
+            setIsAuth={setIsAuth}
+            isAuth={isAuth}
+          />
         </Route>
         <Route path="/ws/job/:id">
-          <WsJob />
+          <WsJob logout={logout} setIsAuth={setIsAuth} isAuth={isAuth} />
         </Route>
 
         <Route path="/ws/customers/:id">
-          <WsCustomers />
+          <WsCustomers logout={logout} setIsAuth={setIsAuth} isAuth={isAuth} />
         </Route>
         <Route exact path="/">
           <Redirect to="/login" />

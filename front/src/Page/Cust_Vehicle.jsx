@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Card, Col, Container, Nav, Navbar, Row, Table } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 
-function Cust_Vehicle() {
+function Cust_Vehicle({ isAuth, logout, setIsAuth }) {
   const [vehicle, setVehicle] = useState({});
   const { id } = useParams();
   const [records, setrecords] = useState([]);
@@ -14,11 +14,13 @@ function Cust_Vehicle() {
       try {
         let token = localStorage.getItem("token");
         let resp = await axios.get(
-          `http://localhost:8080/api/customer/vehicle/${id}`, {
+          `http://localhost:8080/api/customer/vehicle/${id}`,
+          {
             headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setVehicle(resp.data.vehicle);
 
         // console.log(resp.data.vehicle);
@@ -30,11 +32,12 @@ function Cust_Vehicle() {
       try {
         let token = localStorage.getItem("token");
         let resp = await axios.get(
-          `http://localhost:8080/api/customer/vehicle/${id}/sr`, {
+          `http://localhost:8080/api/customer/vehicle/${id}/sr`,
+          {
             headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setrecords(resp.data.vehicle.serviceRecord);
         console.log(resp.data.vehicle.serviceRecord);
@@ -48,29 +51,70 @@ function Cust_Vehicle() {
 
   console.log(records);
 
+  if (!isAuth) {
+    return <Redirect to="/login" />;
+  }
+
   return (
-    <>
-      <Navbar bg="primary" variant="light">
-        <Navbar.Brand>Workshop Buddy</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link as={Link} to="/">
+    <div className={records && records.length != 0 ? "cdash" : "cdash2"}>
+      <Navbar
+        // bg="dark"
+        variant="dark"
+        className="d-flex justify-content-between navbar"
+      >
+        <Navbar.Brand>
+          WORKSHOP <i class="fas fa-tools"></i> BUDDY
+        </Navbar.Brand>
+        <Nav className="">
+          <Nav.Link as={Link} to="/login">
             Home
           </Nav.Link>
-          <Nav.Link>Features</Nav.Link>
+          <Nav.Link as={Link} to="/cust/workshops/">
+            Workshops
+          </Nav.Link>
+          <Nav.Link as={Link} to="/cust/workshops/">
+            Logout
+          </Nav.Link>
         </Nav>
       </Navbar>
-      <Container>
+      <Container className="cont">
         <Row>
-          <Col md={12} className="my-2">
-            <h1>Vehicle Details</h1>
-            <h3>{vehicle && vehicle.make}</h3>
-            <h3>{vehicle && vehicle.model}</h3>
-            <h3>{vehicle && vehicle.vehicleNumber}</h3>
+          <Col md={12} className="my-3 mx-3">
+            <h1>
+              <u>Vehicle Details</u>
+            </h1>
+            <div className="my-3">
+              <h3>
+                <strong>Model:</strong> {vehicle && vehicle.make}
+              </h3>
+              <h3>
+                <strong>Make:</strong> {vehicle && vehicle.model}
+              </h3>
+              <h3>
+                <strong>Vehicle Number:</strong>{" "}
+                {vehicle && vehicle.vehicleNumber}
+              </h3>
+            </div>
           </Col>
         </Row>
         <Row>
           <Col md={12} className="my-2">
-            {records && records.length != 0 && <h1>Service History</h1>}
+            {records && records.length != 0 ? (
+              <h1>Service History</h1>
+            ) : (
+              <div>
+                <h1>
+                  <i class="far fa-clipboard"></i>
+                  {"  "}
+                  <i>Service History will be displayed here.</i>
+                </h1>
+                <h3>
+                  <i class="fas fa-wrench"></i>
+                  {"  "}
+                  You have no records available.
+                </h3>
+              </div>
+            )}
 
             {records &&
               records.map((rec) => (
@@ -112,7 +156,7 @@ function Cust_Vehicle() {
           </Col>
         </Row>
       </Container>
-    </>
+    </div>
   );
 }
 

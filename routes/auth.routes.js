@@ -80,6 +80,7 @@ router.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
+// WORKSHOP LOGIN
 router.post("/login/ws", async (req, res, next) => {
   passport.authenticate("ws-login-local", async (err, user, info) => {
     try {
