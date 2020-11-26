@@ -18,7 +18,6 @@ router.post("/register", async (req, res) => {
       password,
       firstname,
       lastname,
-      username,
     });
     await customer.save();
     res.status(201).json({ message: "user successfully registered!" });
