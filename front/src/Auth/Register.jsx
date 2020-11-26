@@ -4,6 +4,7 @@ import { NavLink, Redirect } from "react-router-dom";
 import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+
 function Register({ setIsRegis, isRegis }) {
   const [newUser, setNewUser] = useState({});
 
@@ -35,8 +36,7 @@ function Register({ setIsRegis, isRegis }) {
     password: Yup.string()
       .label("Password")
       .required("Required")
-      .min(2, "Seems a bit short...")
-      .max(10, "We prefer insecure system, try a shorter password."),
+      .min(2, "Seems a bit short..."),
   });
 
   const {
@@ -59,6 +59,7 @@ function Register({ setIsRegis, isRegis }) {
       register(values);
     },
   });
+
   async function register(user) {
     try {
       let resp = await axios.post("/api/auth/register", newUser);
