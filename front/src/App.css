@@ -70,12 +70,12 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-@media screen and (max-width: 700px) {
+/* @media screen and (max-width: 700px) {
   .cdash {
     height: auto;
   }
-  /* .cont {
+  .cont {
     height: 100%;
     background-color: rgba(221, 218, 219, 0.678);
-  } */
-}
+  }
+} */
