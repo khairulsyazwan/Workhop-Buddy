@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Carousels from "./Carousels";
 import { Button, Col, Container, Form, Image } from "react-bootstrap";
 import { NavLink, Redirect } from "react-router-dom";
@@ -12,6 +12,12 @@ import { Schema } from "mongoose";
 function Login({ setIsAuth, isAuth }) {
   const [user, setUser] = useState({});
   const [loggedIn, setloggedIn] = useState(false);
+  let id = localStorage.getItem("id");
+  let token = localStorage.getItem("token");
+
+  useEffect(() => {
+    check();
+  }, []);
 
   function changeHandler(e) {
     setUser((user) => ({ ...user, [e.target.name]: e.target.value }));
@@ -21,6 +27,7 @@ function Login({ setIsAuth, isAuth }) {
     email: Yup.string().email(),
     password: Yup.string(),
   });
+
   const {
     handleSubmit,
     handleChange,
@@ -53,10 +60,18 @@ function Login({ setIsAuth, isAuth }) {
       console.log(error);
     }
   }
+
+  function check() {
+    if (token) {
+      setIsAuth(true);
+      return <Redirect to={`/dashboard/cust/${id}`} />;
+    }
+  }
+
   if (isAuth) {
-    let id = localStorage.getItem("id");
     return <Redirect to={`/dashboard/cust/${id}`} />;
   }
+
   return (
     <div className="cdash2 d-flex align-items-center">
       <Container className="text-center">

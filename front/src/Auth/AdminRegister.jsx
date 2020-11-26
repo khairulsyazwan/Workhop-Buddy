@@ -1,13 +1,17 @@
 import axios from "axios";
 import { Formik, useFormik } from "formik";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Button, Col, Container, Form, Image } from "react-bootstrap";
 import { NavLink, Redirect } from "react-router-dom";
 import * as Yup from "yup";
 
-function AdminRegister({ isAuth, setIsAuth }) {
+function AdminRegister({ isRegis, setIsRegis }) {
   const [newUser, setNewUser] = useState({});
 
+  useEffect(() => {
+    console.log(isRegis);
+  }, []);
   function changeHandler(e) {
     setNewUser((user) => ({ ...user, [e.target.name]: e.target.value }));
   }
@@ -62,13 +66,13 @@ function AdminRegister({ isAuth, setIsAuth }) {
         "http://localhost:8080/api/auth/register/ws",
         user
       );
-      setIsAuth(true);
+      setIsRegis(true);
     } catch (error) {
       console.log(error);
     }
   }
 
-  if (isAuth) {
+  if (isRegis) {
     return <Redirect to={"/ws/login"} />;
   }
   return (

@@ -37,6 +37,7 @@ function App() {
 
   function logout() {
     localStorage.removeItem("token");
+    localStorage.removeItem("id");
     setIsAuth(false);
   }
 
@@ -94,7 +95,7 @@ function App() {
           <Register setIsRegis={setIsRegis} isRegis={isRegis} />
         </Route>
         <Route exact path="/register/ws">
-          <AdminRegister setIsAuth={setIsAuth} isAuth={isAuth} />
+          <AdminRegister setIsRegis={setIsRegis} isRegis={isRegis} />
         </Route>
         <Route exact path="/ws/login">
           <AdminLogin setIsAuth={setIsAuth} isAuth={isAuth} />
