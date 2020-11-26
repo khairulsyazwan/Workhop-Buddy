@@ -7,7 +7,6 @@ import * as Yup from 'yup'
 import imgs from '../Public/WS.png'
 // import { Formik, Field, Form } from 'formik'
 import { useFormik } from 'formik'
-import { Schema } from 'mongoose'
 
 function Login({ setIsAuth, isAuth }) {
   const [user, setUser] = useState({})

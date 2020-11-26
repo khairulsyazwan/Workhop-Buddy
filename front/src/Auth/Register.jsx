@@ -3,20 +3,60 @@ import { Button, Col, Container, Form, Image } from 'react-bootstrap'
 import { NavLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
 function Register({ setIsRegis, isRegis }) {
-  const [newUser, setNewUser] = useState({})
-
+  const [user, setNewUser] = useState({})
 
   function changeHandler(e) {
     setNewUser((user) => ({ ...user, [e.target.name]: e.target.value }))
   }
 
-  async function register() {
+  let Schema = Yup.object().shape({
+    firstname: Yup.string(),
+    lastname: Yup.string(),
+    email: Yup.string().email(),
+    password: Yup.string()
+      .label('Password')
+      .required()
+      .min(2, 'Seems a bit short...')
+      .max(10, 'We prefer insecure system, try a shorter password.'),
+    confirmPassword: Yup.string()
+      .required()
+      .label('Confirm password')
+      .test(
+        'passwords-match',
+        'Passwords must match ya fool',
+        function (value) {
+          return this.parent.password === value
+        }
+      ),
+  })
+
+  const {
+    handleSubmit,
+    handleChange,
+    errors,
+    values,
+    touched,
+    handleBlur,
+  } = useFormik({
+    initialValues: {
+      firstname: '',
+      lastname: '',
+      email: '',
+      password: '',
+    },
+    validationScheme: Schema,
+    onSubmit: (values) => {
+      register(values)
+    },
+  })
+  async function register(user) {
     try {
       let resp = await axios.post(
         'http://localhost:8080/api/auth/register',
-        newUser
+        user
       )
       setIsRegis(true)
     } catch (error) {
@@ -49,13 +89,6 @@ function Register({ setIsRegis, isRegis }) {
               placeholder='lastname'
               onChange={changeHandler}
               name='lastname'
-            />
-          </Form.Row>
-          <Form.Row className='mb-3'>
-            <Form.Control
-              placeholder='username'
-              onChange={changeHandler}
-              name='username'
             />
           </Form.Row>
           <Form.Row className='mb-3'>
