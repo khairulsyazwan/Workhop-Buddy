@@ -1,7 +1,7 @@
-require('../lib/connection');
+require("../lib/connection");
 
-const mongoose = require('mongoose');
-const Workshop = require('../models/workshop.model');
+const mongoose = require("mongoose");
+const Workshop = require("../models/workshop.model");
 const Customer = require("../models/customer.model");
 const Record = require("../models/record.model");
 const Vehicle = require("../models/vehicle.model");
@@ -54,13 +54,15 @@ const Vehicle = require("../models/vehicle.model");
 //     });
 
 Record.insertMany([
-        {
-          item: ["motor oil", "brake fluid"],
-          price: "200",
-          date: Date.now(),
-        },
-        ]).then((suc) => {
-            console.log("successfully added!");
-        }).catch((e) => {
-            console.log(e);
-        });
+  {
+    item: ["motor oil", "brake fluid"],
+    price: "200",
+    date: Date.now(),
+  },
+])
+  .then((suc) => {
+    // console.log("successfully added!");
+  })
+  .catch((e) => {
+    console.log(e);
+  });

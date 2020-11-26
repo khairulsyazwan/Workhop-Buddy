@@ -9,12 +9,12 @@ function Cust_Workshops({ isAuth, logout, setIsAuth }) {
   useEffect(() => {
     async function getWs() {
       let token = localStorage.getItem("token");
-      let resp = await axios.get(`http://localhost:8080/api/workshop/`, {
+      let resp = await axios.get(`/api/workshop/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(resp.data.workshop);
+      // console.log(resp.data.workshop);
       await setWorkshops(resp.data.workshop);
     }
     getWs();
