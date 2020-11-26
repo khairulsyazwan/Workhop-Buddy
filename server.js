@@ -10,7 +10,7 @@ const path = require("path");
 
 //deployment
 
-server.use(express.static(path.join(__dirname, "build")));
+server.use(express.static(path.join(__dirname, "front/build")));
 
 //Middleware
 server.use(express.json());
@@ -35,7 +35,7 @@ server.use("/api/appointment", require("./routes/appointment.routes"));
 
 //deployment
 server.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, "front/build", "index.html"));
 });
 
 // Listen
