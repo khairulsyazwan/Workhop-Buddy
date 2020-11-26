@@ -100,7 +100,7 @@ function WsJob({ isAuth, logout, setIsAuth }) {
   }
 
   return (
-    <div className="cdash2">
+    <div className="cdash">
       <Navbar
         // bg="dark"
         variant="dark"

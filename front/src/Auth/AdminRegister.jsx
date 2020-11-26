@@ -70,7 +70,7 @@ function AdminRegister({ isRegis, setIsRegis }) {
     return <Redirect to={"/ws/login"} />;
   }
   return (
-    <div className="cdash2 d-flex align-items-center">
+    <div className="cdash d-flex align-items-center">
       <Container className="text-center">
         <Col md={4} className="mx-auto py-4 cont2 shadow">
           <h3>

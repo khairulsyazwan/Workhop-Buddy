@@ -53,7 +53,7 @@ function WsAppointment({ isAuth, logout, setIsAuth }) {
     return <Redirect to="/ws/login" />;
   }
   return (
-    <div className="cdash2">
+    <div className="cdash">
       <Navbar
         // bg="dark"
         variant="dark"

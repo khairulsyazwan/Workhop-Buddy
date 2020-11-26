@@ -24,7 +24,7 @@ function Cust_Workshops({ isAuth, logout, setIsAuth }) {
     return <Redirect to="/login" />;
   }
   return (
-    <div className="cdash2">
+    <div className="cdash">
       <Navbar
         // bg="dark"
         variant="dark"
