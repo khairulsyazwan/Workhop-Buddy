@@ -50,7 +50,7 @@ function Cust_Vehicle({ isAuth, logout, setIsAuth }) {
   }
 
   return (
-    <div className={records && records.length != 0 ? "cdash" : "cdash2"}>
+    <div className={records && records.length != 0 ? "cdash3" : "cdash2"}>
       <Navbar
         // bg="dark"
         variant="dark"

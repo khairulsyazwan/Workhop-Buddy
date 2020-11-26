@@ -87,7 +87,7 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-@media screen and (max-width: 800px) {
+/* @media screen and (max-width: 800px) {
   .cdash {
     height: 100%;
   }
@@ -95,4 +95,4 @@
     height: 100%;
     background-color: rgba(221, 218, 219, 0.678);
   }
-}
+} */
