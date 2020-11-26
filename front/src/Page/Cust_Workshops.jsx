@@ -31,10 +31,10 @@ function Cust_Workshops({ isAuth, logout, setIsAuth }) {
         className="d-flex justify-content-between navbar"
         expand="lg"
       >
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Brand>
           WORKSHOP <i class="fas fa-tools"></i> BUDDY
         </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="">
             <Nav.Link as={Link} to="/login">
