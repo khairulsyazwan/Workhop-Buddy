@@ -62,7 +62,7 @@ function AdminRegister({ isRegis, setIsRegis }) {
       let resp = await axios.post("/api/auth/register/ws", user);
       setIsRegis(true);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 

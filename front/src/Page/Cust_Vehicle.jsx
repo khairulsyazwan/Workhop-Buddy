@@ -22,7 +22,7 @@ function Cust_Vehicle({ isAuth, logout, setIsAuth }) {
 
         // console.log(resp.data.vehicle);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     async function getSR() {
@@ -36,14 +36,14 @@ function Cust_Vehicle({ isAuth, logout, setIsAuth }) {
         setrecords(resp.data.vehicle.serviceRecord);
         // console.log(resp.data.vehicle.serviceRecord);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     getVehicle();
     getSR();
   }, []);
 
-  console.log(records);
+  // console.log(records);
 
   if (!isAuth) {
     return <Redirect to="/login" />;

@@ -29,7 +29,7 @@ function WsDashboard({ isAuth, logout, setIsAuth }) {
         // console.log(resp.data.workshop);
         setCurrent(resp.data.workshop);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     async function getWsApp() {
@@ -38,7 +38,7 @@ function WsDashboard({ isAuth, logout, setIsAuth }) {
         // console.log(resp.data.workshop);
         // setApps(resp.data.workshop.appointments.vehicle);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     getWs();

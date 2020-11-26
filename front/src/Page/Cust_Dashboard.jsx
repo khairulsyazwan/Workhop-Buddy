@@ -51,7 +51,7 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
       });
       await setCurrent(resp.data.customer);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -65,7 +65,7 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
       });
       await setCurrentAppointments(resp.data.customer.appointments);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -79,7 +79,7 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
       });
       await setWorkshop(resp.data.workshop);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -105,7 +105,7 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
       getCustomer();
       handleClose();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -137,7 +137,7 @@ function Cust_Dashboard({ isAuth, logout, setIsAuth }) {
       getCustomerApp();
       handleClose2();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
   function logout() {

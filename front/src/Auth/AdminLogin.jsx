@@ -54,7 +54,7 @@ function AdminLogin({ setIsAuth, isAuth }) {
       localStorage.setItem("id", resp.data.id);
       setIsAuth(true);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 

@@ -64,7 +64,7 @@ function Register({ setIsRegis, isRegis }) {
       let resp = await axios.post("/api/auth/register", newUser);
       setIsRegis(true);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 

@@ -35,7 +35,7 @@ function WsJob({ isAuth, logout, setIsAuth }) {
       //   console.log(resp.data.appointment);
       setapp(resp.data.appointment);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -84,7 +84,7 @@ function WsJob({ isAuth, logout, setIsAuth }) {
 
       setredirect(true);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
     setJob({ ...job, item: newItems });
     // console.log(job);

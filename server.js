@@ -40,5 +40,5 @@ server.get("/*", (req, res) => {
 
 // Listen
 server.listen(process.env.PORT, () =>
-  console.log(`running on ${process.env.PORT}`)
+  // console.log(`running on ${process.env.PORT}`)
 );

@@ -29,7 +29,7 @@ function WsCustomers({ isAuth, logout, setIsAuth }) {
         // console.log(resp.data.workshop.customers);
         setCustomers(resp.data.workshop.customers);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     getWs();

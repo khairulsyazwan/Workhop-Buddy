@@ -20,7 +20,7 @@ function Cust_Appointment({ isAuth, logout, setIsAuth }) {
         // console.log(resp.data.appointment);
         setApp(resp.data.appointment);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     getApp();
