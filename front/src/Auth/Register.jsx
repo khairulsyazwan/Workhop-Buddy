@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEfect } from "react";
 import { Button, Col, Container, Form, Image } from "react-bootstrap";
 import { NavLink, Redirect } from "react-router-dom";
 import axios from "axios";
+import { useEffect } from "react";
 
 function Register({ setIsRegis, isRegis }) {
   const [newUser, setNewUser] = useState({});
+
+  useEffect(() => {
+    console.log(isRegis);
+  }, []);
 
   function changeHandler(e) {
     setNewUser((user) => ({ ...user, [e.target.name]: e.target.value }));

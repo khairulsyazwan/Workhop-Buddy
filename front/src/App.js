@@ -95,7 +95,7 @@ function App() {
           <Register setIsRegis={setIsRegis} isRegis={isRegis} />
         </Route>
         <Route exact path="/register/ws">
-          <AdminRegister setIsRegis={setIsRegis} isAuth={isRegis} />
+          <AdminRegister setIsRegis={setIsRegis} isRegis={isRegis} />
         </Route>
         <Route exact path="/ws/login">
           <AdminLogin setIsAuth={setIsAuth} isAuth={isAuth} />

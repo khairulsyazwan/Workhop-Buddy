@@ -17,8 +17,6 @@ function Login({ setIsAuth, isAuth }) {
 
   useEffect(() => {
     check();
-    console.log(token);
-    console.log(isAuth);
   }, []);
 
   function changeHandler(e) {
@@ -29,6 +27,7 @@ function Login({ setIsAuth, isAuth }) {
     email: Yup.string().email(),
     password: Yup.string(),
   });
+
   const {
     handleSubmit,
     handleChange,
