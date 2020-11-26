@@ -9,9 +9,10 @@ import {
   Navbar,
   Row,
 } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
+import moment from "moment";
 
-function WsDashboard() {
+function WsDashboard({ isAuth, logout, setIsAuth }) {
   const [current, setCurrent] = useState();
   const [apps, setApps] = useState([]);
   const { id } = useParams();
@@ -43,29 +44,44 @@ function WsDashboard() {
       }
     }
     getWs();
-    // getWsApp();
+    getWsApp();
   }, []);
 
+  if (!isAuth) {
+    return <Redirect to="/ws/login" />;
+  }
+
   return (
-    <>
-      <Navbar bg="primary" variant="light">
-        <Navbar.Brand>Workshop Buddy</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link to="#home">Home</Nav.Link>
+    <div className="cdash2">
+      <Navbar
+        // bg="dark"
+        variant="dark"
+        className="d-flex justify-content-between navbar"
+      >
+        <Navbar.Brand>
+          WORKSHOP <i class="fas fa-tools"></i> BUDDY
+        </Navbar.Brand>
+        <Nav className="">
+          <Nav.Link as={Link} to="/ws/login">
+            Home
+          </Nav.Link>
           <Nav.Link as={Link} to={`/ws/customers/${id}`}>
             Customers
           </Nav.Link>
+          <Nav.Link onClick={logout}>Logout</Nav.Link>
         </Nav>
       </Navbar>
-      <Container>
-        <div className="my-3">
-          <h1>Welcome, {current && current.name} !</h1>
-        </div>
-
+      <Container className="cont shadow">
         <Row>
           <Col md={12}>
-            <div className="my-3">
-              <h2>Appointments</h2>
+            <div className="my-3 mx-3">
+              <h1>Welcome, {current && current.name} !</h1>
+            </div>
+            <div className="my-3 mx-3">
+              <h2>
+                <i class="far fa-clipboard"></i> You have{" "}
+                {current && current.appointments.length} appointments.
+              </h2>
             </div>
 
             <Row>
@@ -85,10 +101,12 @@ function WsDashboard() {
               {current &&
                 current.appointments.map((app) => (
                   <Col md={4} sm={6}>
-                    <Card key={app._id} className="text-center shadow">
+                    <Card key={app._id} className="text-center shadow my-2">
                       <Card.Header>
                         <Card.Title>
-                          <div>{app.date}</div>
+                          <div>
+                            {moment(app.date).format("dddd, DD MMMM YYYY")}
+                          </div>
                         </Card.Title>
 
                         <div>
@@ -129,7 +147,7 @@ function WsDashboard() {
           </Col>
         </Row>
       </Container>
-    </>
+    </div>
   );
 }
 export default WsDashboard;
