@@ -40,7 +40,7 @@ function WsCustomers({ isAuth, logout, setIsAuth }) {
   }
 
   return (
-    <div className={customers && customers.length > 1 ? "cdash3" : "cdash2"}>
+    <div className="cdash3">
       <Navbar
         // bg="dark"
         variant="dark"
