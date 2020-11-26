@@ -88,14 +88,8 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
   .cdash2 {
     height: auto;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .cdash3 {
-    height: 100vh;
   }
 }

@@ -50,7 +50,11 @@ function WsDashboard({ isAuth, logout, setIsAuth }) {
   }
 
   return (
-    <div className="cdash2">
+    <div
+      className={
+        current && current.appointments.length > 3 ? "cdash3" : "cdash2"
+      }
+    >
       <Navbar
         // bg="dark"
         variant="dark"
