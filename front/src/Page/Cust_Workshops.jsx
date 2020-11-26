@@ -29,21 +29,25 @@ function Cust_Workshops({ isAuth, logout, setIsAuth }) {
         // bg="dark"
         variant="dark"
         className="d-flex justify-content-between navbar"
+        expand="lg"
       >
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Brand>
           WORKSHOP <i class="fas fa-tools"></i> BUDDY
         </Navbar.Brand>
-        <Nav className="">
-          <Nav.Link as={Link} to="/login">
-            Home
-          </Nav.Link>
-          <Nav.Link as={Link} to="/cust/workshops/">
-            Workshops
-          </Nav.Link>
-          <Nav.Link as={Link} to="/cust/workshops/">
-            Logout
-          </Nav.Link>
-        </Nav>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="">
+            <Nav.Link as={Link} to="/login">
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to="/cust/workshops/">
+              Workshops
+            </Nav.Link>
+            <Nav.Link as={Link} to="/cust/workshops/">
+              Logout
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
       <Container className="cont">
         <Row>

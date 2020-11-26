@@ -55,19 +55,23 @@ function WsDashboard({ isAuth, logout, setIsAuth }) {
         // bg="dark"
         variant="dark"
         className="d-flex justify-content-between navbar"
+        expand="lg"
       >
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Brand>
           WORKSHOP <i class="fas fa-tools"></i> BUDDY
         </Navbar.Brand>
-        <Nav className="">
-          <Nav.Link as={Link} to="/ws/login">
-            Home
-          </Nav.Link>
-          <Nav.Link as={Link} to={`/ws/customers/${id}`}>
-            Customers
-          </Nav.Link>
-          <Nav.Link onClick={logout}>Logout</Nav.Link>
-        </Nav>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="">
+            <Nav.Link as={Link} to="/ws/login">
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to={`/ws/customers/${id}`}>
+              Customers
+            </Nav.Link>
+            <Nav.Link onClick={logout}>Logout</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
       <Container className="cont shadow">
         <Row>
