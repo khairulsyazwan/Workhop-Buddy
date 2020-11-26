@@ -7,11 +7,12 @@ import {
   Form,
   Nav,
   Navbar,
+  Row,
   Table,
 } from "react-bootstrap";
-import { Redirect, useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 
-function WsJob() {
+function WsJob({ isAuth, logout, setIsAuth }) {
   const [job, setJob] = useState();
   const [app, setapp] = useState();
   const [newItems, setNewItems] = useState([]);
@@ -101,85 +102,105 @@ function WsJob() {
     return <Redirect to={`/dashboard/ws/${app.workshop}`} />;
   }
 
+  if (!isAuth) {
+    return <Redirect to="/ws/login" />;
+  }
+
   return (
-    <>
-      <Navbar bg="primary" variant="light">
-        <Navbar.Brand>Workshop Buddy</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link to="#home">Home</Nav.Link>
-          <Nav.Link>Features</Nav.Link>
+    <div className="cdash2">
+      <Navbar
+        // bg="dark"
+        variant="dark"
+        className="d-flex justify-content-between navbar"
+      >
+        <Navbar.Brand>
+          WORKSHOP <i class="fas fa-tools"></i> BUDDY
+        </Navbar.Brand>
+        <Nav className="">
+          <Nav.Link as={Link} to="/ws/login">
+            Home
+          </Nav.Link>
+          <Nav.Link onClick={logout}>Logout</Nav.Link>
         </Nav>
       </Navbar>
-      <Container>
-        <h1>Complete Job</h1>
-        <h4>{app && app.vehicle.vehicleNumber}</h4>
-        <h4>{app && app.vehicle.make + " " + app.vehicle.model}</h4>
-        <h4>{app && app.work}</h4>
+      <Container className="cont">
+        <Row>
+          <Col>
+            <div className="my-3 mx-3">
+              <h1>Complete Job</h1>
+              <h4>{app && app.vehicle.vehicleNumber}</h4>
+              <h4>{app && app.vehicle.make + " " + app.vehicle.model}</h4>
+              <h4>{app && app.work}</h4>
+            </div>
 
-        <Form>
-          <Form.Label>Date</Form.Label>
-          <Form.Control
-            type="date"
-            name="date"
-            placeholder="Job Completion Date"
-            onChange={changeHandler2}
-          />
+            <Form>
+              <Form.Label>Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="date"
+                placeholder="Job Completion Date"
+                onChange={changeHandler2}
+              />
+              <div className="my-2">
+                <Form.Label>Items</Form.Label>
+                <Form.Row>
+                  <Col>
+                    <Form.Control
+                      onChange={changeHandler}
+                      name="item"
+                      placeholder="Item"
+                    />
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      onChange={changeHandler}
+                      name="qty"
+                      placeholder="Quantity"
+                      type="number"
+                    />
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      onChange={changeHandler}
+                      name="price"
+                      placeholder="Price"
+                      type="number"
+                    />
+                  </Col>
 
-          <Form.Label>Items</Form.Label>
-          <Form.Row>
-            <Col>
-              <Form.Control
-                onChange={changeHandler}
-                name="item"
-                placeholder="Item"
-              />
-            </Col>
-            <Col>
-              <Form.Control
-                onChange={changeHandler}
-                name="qty"
-                placeholder="Quantity"
-                type="number"
-              />
-            </Col>
-            <Col>
-              <Form.Control
-                onChange={changeHandler}
-                name="price"
-                placeholder="Price"
-                type="number"
-              />
-            </Col>
-            <Button onClick={addItems}>+</Button>
-          </Form.Row>
-        </Form>
-        {newItems.length > 0 && (
-          <Table className="mt-3" striped bordered hover>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {newItems.map((it, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{it.item}</td>
-                  <td>{it.qty}</td>
-                  <td>{it.price}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        )}
-        <Button onClick={completeJob} className="btn-block mt-4">
-          Submit
-        </Button>
+                  <Button onClick={addItems}>+</Button>
+                </Form.Row>
+              </div>
+            </Form>
+            {newItems.length > 0 && (
+              <Table className="mt-3" striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {newItems.map((it, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{it.item}</td>
+                      <td>{it.qty}</td>
+                      <td>{it.price}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            )}
+            <Button onClick={completeJob} className="btn-block mt-4">
+              Submit
+            </Button>
+          </Col>
+        </Row>
       </Container>
-    </>
+    </div>
   );
 }
 

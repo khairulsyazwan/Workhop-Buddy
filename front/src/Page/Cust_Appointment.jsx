@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Card, Col, Container, Nav, Navbar, Row } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 
-function Cust_Appointment() {
+function Cust_Appointment({ isAuth, logout, setIsAuth }) {
   const [app, setApp] = useState();
 
   const { id } = useParams();
@@ -13,11 +13,12 @@ function Cust_Appointment() {
       try {
         let token = localStorage.getItem("token");
         let resp = await axios.get(
-          `http://localhost:8080/api/customer/appointment/${id}`, {
+          `http://localhost:8080/api/customer/appointment/${id}`,
+          {
             headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         console.log(resp.data.appointment);
         setApp(resp.data.appointment);
@@ -28,51 +29,72 @@ function Cust_Appointment() {
     getApp();
   }, []);
 
+  if (!isAuth) {
+    return <Redirect to="/login" />;
+  }
+
   return (
-    <>
-      <Navbar bg="primary" variant="light">
-        <Navbar.Brand>Workshop Buddy</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link as={Link} to="/">
+    <div className="cdash2">
+      <Navbar
+        // bg="dark"
+        variant="dark"
+        className="d-flex justify-content-between navbar"
+      >
+        <Navbar.Brand>
+          WORKSHOP <i class="fas fa-tools"></i> BUDDY
+        </Navbar.Brand>
+        <Nav className="">
+          <Nav.Link as={Link} to="/login">
             Home
           </Nav.Link>
-          <Nav.Link>Features</Nav.Link>
+          <Nav.Link as={Link} to="/cust/workshops/">
+            Workshops
+          </Nav.Link>
+          <Nav.Link as={Link} to="/cust/workshops/">
+            Logout
+          </Nav.Link>
         </Nav>
       </Navbar>
-      <div>
-        <Container className="my-2">
-          <h1>Appointment Details</h1>
-          {app && app.isAcknowledged ? (
-            <span class="badge badge-pill badge-success my-2">
-              Acknowledged
-            </span>
-          ) : (
-            <span class="badge badge-pill badge-danger my-2">
-              Pending Acknowledgement
-            </span>
-          )}
 
-          <Row>
-            <Col>
-              <Card>
-                <Card.Header>
-                  <h3>{app && app.date}</h3>
-                </Card.Header>
-                <Card.Body>
-                  <h5>{app && app.vehicle.vehicleNumber}</h5>
-                  <h5>{app && app.vehicle.make + " " + app.vehicle.model}</h5>
-                  <h5>{app && app.work}</h5>
-                </Card.Body>
-                <Card.Footer>
-                  <h5>{app && app.workshop.name}</h5>
-                  <h5>{app && app.workshop.address}</h5>
-                </Card.Footer>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-    </>
+      <Container className="cont">
+        <Row>
+          <Col>
+            <div className="mt-3 mx-1">
+              <h1>Appointment Details</h1>
+            </div>
+
+            {app && app.isAcknowledged ? (
+              <span class="badge badge-pill badge-success my-2">
+                Acknowledged
+              </span>
+            ) : (
+              <span class="badge badge-pill badge-danger my-2">
+                Pending Acknowledgement
+              </span>
+            )}
+
+            <Row>
+              <Col>
+                <Card>
+                  <Card.Header>
+                    <h3>{app && app.date}</h3>
+                  </Card.Header>
+                  <Card.Body>
+                    <h5>{app && app.vehicle.vehicleNumber}</h5>
+                    <h5>{app && app.vehicle.make + " " + app.vehicle.model}</h5>
+                    <h5>{app && app.work}</h5>
+                  </Card.Body>
+                  <Card.Footer>
+                    <h5>{app && app.workshop.name}</h5>
+                    <h5>{app && app.workshop.address}</h5>
+                  </Card.Footer>
+                </Card>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
 

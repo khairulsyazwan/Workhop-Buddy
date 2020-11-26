@@ -57,20 +57,16 @@ function Login({ setIsAuth, isAuth }) {
     return <Redirect to={`/dashboard/cust/${id}`} />
   }
   return (
-    <div>
+    <div className='cdash2 d-flex align-items-center'>
       <Container className='text-center'>
-        <Col md={4} className='mx-auto py-5'>
+        <Col md={4} className='mx-auto py-4 cont2 shadow'>
+          <h3>
+            <strong>
+              WORKSHOP <i class='fas fa-tools'></i> BUDDY
+            </strong>
+          </h3>
           <Form onSubmit={handleSubmit}>
-            <Image
-              src={imgs}
-              style={{
-                height: '25vh',
-                marginBottom: '1vh',
-                maxWidth: '100%',
-                maxHeight: '100%',
-              }}
-            ></Image>
-
+            <div className='my-2'>USER LOGIN</div>
             <Form.Row className='mb-3'>
               <Form.Control
                 placeholder='email@email.com'
@@ -99,7 +95,7 @@ function Login({ setIsAuth, isAuth }) {
             </Form.Row>
           </Form>
           <NavLink to='/register'>Sign Up Now </NavLink>
-          <div>
+          <div className='my-1'>
             <NavLink to='/ws/login'>Admin Login</NavLink>
           </div>
         </Col>
@@ -109,85 +105,3 @@ function Login({ setIsAuth, isAuth }) {
 }
 
 export default Login
-
-// import React, { useState } from "react";
-// import Carousels from "./Carousels";
-// import { Button, Col, Container, Form, Image } from "react-bootstrap";
-// import { NavLink, Redirect } from "react-router-dom";
-// import FormikControl from './FormikControl'
-
-// function Login({ setIsAuth, isAuth }) {
-//   const [user, setUser] = useState({});
-
-//   // const [loggedIn, setloggedIn] = useState(false);
-
-//   function changeHandler(e) {
-//     setUser((user) => ({ ...user, [e.target.name]: e.target.value }));
-//   }
-
-//   async function login() {
-//     try {
-//       let resp = await axios.post("http://localhost:8080/api/auth/login", user);
-//       //token is here
-//       console.log(resp.data);
-//       localStorage.setItem("token", resp.data.token);
-//       localStorage.setItem("id", resp.data.id);
-//       setIsAuth(true);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-
-//   if (isAuth) {
-//     let id = localStorage.getItem("id");
-//     return <Redirect to={`/dashboard/customer/${id}`} />;
-//   }
-
-//   return (
-//     <>
-//       <div style={{ height: "100vh" }} className="splash">
-//         <Container className="text-center">
-//           <Col md={4} className="mx-auto py-5">
-//             <Image
-//               src="./images/WS.png"
-//               style={{
-//                 height: "25vh",
-//                 marginBottom: "-5vh",
-//                 maxWidth: "100%",
-//                 maxHeight: "100%",
-//               }}
-//             ></Image>
-
-//             <Form.Row className="mb-3">
-//               <Form.Control
-//                 placeholder="email@email.com"
-//                 onChange={changeHandler}
-//                 name="email"
-//               />
-//             </Form.Row>
-//             <Form.Row className="mb-3">
-//               <Form.Control
-//                 onChange={changeHandler}
-//                 placeholder="password"
-//                 name="password"
-//                 type="password"
-//               />
-//             </Form.Row>
-//             <Form.Row className="mb-3">
-//               <Button block onClick={login}>
-//                 Login
-//               </Button>
-//             </Form.Row>
-//             <NavLink to="/register">Sign Up Now </NavLink>
-//             <div>
-//             <NavLink to="/AdminLogin">Admin Login</NavLink>
-//             </div>
-//           </Col>
-//         </Container>
-//         <Carousels />
-//       </div>
-//     </>
-//   );
-// }
-
-// export default Login;

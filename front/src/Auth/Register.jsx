@@ -2,11 +2,9 @@ import React, { useState } from 'react'
 import { Button, Col, Container, Form, Image } from 'react-bootstrap'
 import { NavLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
 
 function Register({ setIsRegis, isRegis }) {
-  const [user, setNewUser] = useState({})
+  const [newUser, setNewUser] = useState({})
 
   function changeHandler(e) {
     setNewUser((user) => ({ ...user, [e.target.name]: e.target.value }))
@@ -56,7 +54,7 @@ function Register({ setIsRegis, isRegis }) {
     try {
       let resp = await axios.post(
         'http://localhost:8080/api/auth/register',
-        user
+        newUser
       )
       setIsRegis(true)
     } catch (error) {
@@ -69,26 +67,34 @@ function Register({ setIsRegis, isRegis }) {
   }
 
   return (
-    <div style={{ height: '400vh' }} className='splash'>
+    <div className='cdash2 d-flex align-items-center'>
       <Container className='text-center'>
-        <Col md={4} className='mx-auto py-5'>
-          <Image
-            src='../images/WS.png'
-            style={{ height: '25vh', marginBottom: '-5vh' }}
-          ></Image>
+        <Col md={4} className='mx-auto py-4 cont2 shadow'>
+          <h3>
+            <strong>
+              WORKSHOP <i class='fas fa-tools'></i> BUDDY
+            </strong>
+          </h3>
 
           <Form.Row className='mb-3'>
             <Form.Control
-              placeholder='firstname'
+              placeholder='First Name'
               onChange={changeHandler}
               name='firstname'
             />
           </Form.Row>
           <Form.Row className='mb-3'>
             <Form.Control
-              placeholder='lastname'
+              placeholder='Last Name'
               onChange={changeHandler}
               name='lastname'
+            />
+          </Form.Row>
+          <Form.Row className='mb-3'>
+            <Form.Control
+              placeholder='Username'
+              onChange={changeHandler}
+              name='username'
             />
           </Form.Row>
           <Form.Row className='mb-3'>
@@ -101,7 +107,7 @@ function Register({ setIsRegis, isRegis }) {
           <Form.Row className='mb-3'>
             <Form.Control
               onChange={changeHandler}
-              placeholder='password'
+              placeholder='Password'
               name='password'
               type='password'
             />

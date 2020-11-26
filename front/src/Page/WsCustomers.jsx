@@ -10,9 +10,10 @@ import {
   Row,
   Table,
 } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
+import moment from "moment";
 
-function WsCustomers() {
+function WsCustomers({ isAuth, logout, setIsAuth }) {
   const { id } = useParams();
   const [customers, setCustomers] = useState([]);
 
@@ -37,25 +38,39 @@ function WsCustomers() {
     getWs();
   }, []);
 
+  if (!isAuth) {
+    return <Redirect to="/ws/login" />;
+  }
+
   return (
-    <>
-      <Navbar bg="primary" variant="light">
-        <Navbar.Brand>Workshop Buddy</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link as={Link} to={`/dashboard/ws/${id}`}>
-            Dashboard
+    <div className={customers && customers.length != 0 ? "cdash" : "cdash2"}>
+      <Navbar
+        // bg="dark"
+        variant="dark"
+        className="d-flex justify-content-between navbar"
+      >
+        <Navbar.Brand>
+          WORKSHOP <i class="fas fa-tools"></i> BUDDY
+        </Navbar.Brand>
+        <Nav className="">
+          <Nav.Link as={Link} to="/ws/login">
+            Home
           </Nav.Link>
+          <Nav.Link as={Link} to={`/ws/customers/${id}`}>
+            Customers
+          </Nav.Link>
+          <Nav.Link onClick={logout}>Logout</Nav.Link>
         </Nav>
       </Navbar>
-      <Container>
-        <div className="my-3">
-          <h1>Customers</h1>
-        </div>
+      <Container className="cont">
         <Row>
+          <div className="mt-3 mx-3">
+            <h1>Customers</h1>
+          </div>
           {customers &&
             customers.map((cus) => (
               <Col md={12}>
-                <Card key={cus._id} className=" shadow">
+                <Card key={cus._id} className="my-3 shadow">
                   <Card.Header>
                     <Card.Title>
                       <div>{cus.firstname + " " + cus.lastname}</div>
@@ -67,7 +82,9 @@ function WsCustomers() {
                       <h5>{cus.email}</h5>
                     </div>
                     <div>
-                      <h5>Vehicles</h5>
+                      <h5>
+                        <u>Vehicles</u>
+                      </h5>
                     </div>
                     {cus.vehicles.map((veh) => (
                       <div>
@@ -76,7 +93,7 @@ function WsCustomers() {
                         </h6>
 
                         {veh.serviceRecord.map((serv) => (
-                          <div>
+                          <div className="table-responsive">
                             <Table
                               striped
                               bordered
@@ -96,7 +113,11 @@ function WsCustomers() {
                                 serv.item.map((it) => (
                                   <tbody>
                                     <tr>
-                                      <td>{serv.date}</td>
+                                      <td>
+                                        {moment(serv.date).format(
+                                          "dddd, DD MMMM YYYY"
+                                        )}
+                                      </td>
                                       <td>{it.item}</td>
                                       <td>{it.qty}</td>
                                       <td>${it.price}</td>
@@ -109,22 +130,12 @@ function WsCustomers() {
                       </div>
                     ))}
                   </Card.Body>
-                  <Card.Footer>
-                    <Button
-                      variant="outline-info"
-                      as={Link}
-                      //   to={`/ws/appointment/${app._id}`}
-                      className="btn-block"
-                    >
-                      View
-                    </Button>
-                  </Card.Footer>
                 </Card>
               </Col>
             ))}
         </Row>
       </Container>
-    </>
+    </div>
   );
 }
 

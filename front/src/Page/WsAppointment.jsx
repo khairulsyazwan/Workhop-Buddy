@@ -9,9 +9,9 @@ import {
   Navbar,
   Row,
 } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 
-function WsAppointment() {
+function WsAppointment({ isAuth, logout, setIsAuth }) {
   const [app, setapp] = useState();
   const { id } = useParams();
 
@@ -51,19 +51,31 @@ function WsAppointment() {
       console.log(error.response);
     }
   }
+
+  if (!isAuth) {
+    return <Redirect to="/ws/login" />;
+  }
   return (
-    <>
-      <Navbar bg="primary" variant="light">
-        <Navbar.Brand>Workshop Buddy</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link to="#home">Home</Nav.Link>
-          <Nav.Link>Features</Nav.Link>
+    <div className="cdash2">
+      <Navbar
+        // bg="dark"
+        variant="dark"
+        className="d-flex justify-content-between navbar"
+      >
+        <Navbar.Brand>
+          WORKSHOP <i class="fas fa-tools"></i> BUDDY
+        </Navbar.Brand>
+        <Nav className="">
+          <Nav.Link as={Link} to="/ws/login">
+            Home
+          </Nav.Link>
+          <Nav.Link onClick={logout}>Logout</Nav.Link>
         </Nav>
       </Navbar>
-      <Container>
+      <Container className="cont">
         <Row>
           <Col>
-            <div className="my-3">
+            <div className="my-3 mx-3">
               <h1>Appointment Details</h1>
               {app && app.isAcknowledged ? (
                 <span class="badge badge-pill badge-success">Acknowledged</span>
@@ -105,7 +117,11 @@ function WsAppointment() {
 
               <Card.Footer>
                 {app && !app.isAcknowledged && (
-                  <Button onClick={confirmApp} variant="outline-success">
+                  <Button
+                    onClick={confirmApp}
+                    variant="outline-success"
+                    className="mr-3"
+                  >
                     Confirm Appointment
                   </Button>
                 )}
@@ -113,7 +129,6 @@ function WsAppointment() {
                   as={Link}
                   to={`/ws/job/${id}`}
                   variant="outline-primary"
-                  className="mx-4"
                 >
                   Complete Job
                 </Button>
@@ -122,7 +137,7 @@ function WsAppointment() {
           </Col>
         </Row>
       </Container>
-    </>
+    </div>
   );
 }
 
